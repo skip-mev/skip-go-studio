@@ -28,3 +28,7 @@ body {
 button {
   cursor: pointer;
 }
+
+.pill-button-active{
+  @apply bg-[#FF66FF] text-black
+}
