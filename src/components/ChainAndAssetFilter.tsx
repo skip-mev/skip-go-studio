@@ -145,7 +145,6 @@ const ChainCheckbox = ({ name, id }: { name: string; id: string }) => {
         <SmallPillButton className="text-[#A5A5A5]">{id}</SmallPillButton>
       </div>
 
-      <span className="text-[#A5A5A5] text-sm">cosmos</span>
     </button>
   );
 };
