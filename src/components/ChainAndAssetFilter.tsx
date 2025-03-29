@@ -122,9 +122,12 @@ export const ChainAndAssetFilter = ({
             ).map((chain) => (
               <ChainCheckbox key={chain.chainID} name={chain.chainName} id={chain.chainID} />
             ))
-          }
+            }
           </div>
-
+          <div className="flex flex-row items-center gap-2">
+           <Checkbox />
+            <span className="text-[#A5A5A5]">Select all in view</span>
+          </div>
         </div>
       )}
     </div>
