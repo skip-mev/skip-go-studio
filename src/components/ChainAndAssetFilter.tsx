@@ -125,7 +125,9 @@ export const ChainAndAssetFilter = ({
             }
           </div>
           <div className="flex flex-row items-center gap-2">
-           <Checkbox />
+            <Checkbox onClick={() => {
+
+           }} />
             <span className="text-[#A5A5A5]">Select all in view</span>
           </div>
         </div>
