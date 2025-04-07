@@ -12,6 +12,7 @@
     "@heroicons/react": "^2.2.0",
     "@skip-go/widget": "^3.5.0",
     "@tanstack/react-query": "^5.70.0",
+    "@tanstack/react-virtual": "^3.13.6",
     "next": "15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
