@@ -5,16 +5,92 @@
   --foreground: #171717;
 }
 
+
+@theme {
+  --font-abcdiatype: "ABCDiatype", sans-serif;
+  --font-abcdiatype-mono: "ABCDiatypeMono", sans-serif;
+  --color-secondary: #1D1D1D;
+}
+
+@font-face {
+    font-family: "ABCDiatype";
+    font-weight:  700;
+    display: swap;
+    src: url("/fonts/ABCDiatype-Bold.woff2");
+}
+@font-face {
+    font-family: "ABCDiatype";
+    font-weight:  500;
+    display: swap;
+    src: url("/fonts/ABCDiatype-Medium.woff2");
+}
+@font-face {
+    font-family: "ABCDiatype";
+    font-weight:  400;
+    display: swap;
+    src: url("/fonts/ABCDiatype-Regular.woff2");
+}
+@font-face {
+    font-family: "ABCDiatype";
+    font-weight:  300;
+    display: swap;
+    src: url("/fonts/ABCDiatype-Light.woff2");
+}
+@font-face {
+    font-family: "ABCDiatype";
+    font-weight:  200;
+    display: swap;
+    src: url("/fonts/ABCDiatype-Thin.woff2");
+}
+
+@font-face {
+    font-family: "ABCDiatypeMono";
+    font-weight:  700;
+    display: swap;
+    src: url("/fonts/ABCDiatypeMono-Bold.woff2");
+}
+@font-face {
+    font-family: "ABCDiatypeMono";
+    font-weight:  500;
+    display: swap;
+    src: url("/fonts/ABCDiatypeMono-Medium.woff2");
+}
+@font-face {
+    font-family: "ABCDiatypeMono";
+    font-weight:  400;
+    display: swap;
+    src: url("/fonts/ABCDiatypeMono-Regular.woff2");
+}
+@font-face {
+    font-family: "ABCDiatypeMono";
+    font-weight:  300;
+    display: swap;
+    src: url("/fonts/ABCDiatypeMono-Light.woff2");
+}
+@font-face {
+    font-family: "ABCDiatypeMono";
+    font-weight:  200;
+    display: swap;
+    src: url("/fonts/ABCDiatypeMono-Thin.woff2");
+}
+@font-face {
+    font-family: "ABCDiatypeMono";
+    font-weight:  100;
+    display: swap;
+    src: url("/fonts/ABCDiatypeMono-Thin.woff2");
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-abcdiatype);
+  --font-mono: var(--font-abcdiatype-mono);
 }
+
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #3D3D3D;
     --foreground: #ededed;
   }
 }
@@ -22,7 +98,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-abcdiatype);
 }
 
 button {
