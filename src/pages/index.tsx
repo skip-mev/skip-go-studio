@@ -2,15 +2,17 @@
 import { Widget } from "@skip-go/widget";
 import { debounce } from "lodash";
 
-import { ChainAndAssetFilter } from "@/components/ChainAndAssetFilter";
-import { useStylingStore } from "@/store/styling";
+import { useStudioStore } from "@/store/studio";
 import { Card } from "@/components/Card";
+import { NetworksAndAssets } from "@/components/sections/ChainAndAssetFilter/NetworksAndAssets";
+import { DefaultRoute } from "@/components/sections/DefaultRoute/DefaultRoute";
+import { Theming } from "@/components/sections/Theming/Theming";
 
 export default function Studio() {
-  const { backgroundColor } = useStylingStore();
+  const { backgroundColor, theme } = useStudioStore();
 
   const saveBackgroundColor = debounce((color: string) => {
-    useStylingStore.setState({
+    useStudioStore.setState({
       backgroundColor: color,
     });
   }, 200);
@@ -22,7 +24,7 @@ export default function Studio() {
         backgroundColor: backgroundColor,
       }}
     >
-      <div className="flex w-[472px] flex-col justify-between text-white relative">
+      <div className="flex w-[480px] flex-col justify-between text-white relative">
         <div className="flex flex-col gap-2.5 overflow-y-scroll p-6">
           <Card>
             <h1 className="text-2xl">Get started with skip:go</h1>
@@ -31,21 +33,9 @@ export default function Studio() {
               starting template, or configure the widget to suit your needs.
             </p>
           </Card>
-          <Card>
-            <div className="flex flex-col gap-2">
-              <h1 className="text-2xl">Filter</h1>
-              <p>
-                Select the chains and assets you want to support in the widget
-              </p>
-            </div>
-            <ChainAndAssetFilter context="source" />
-            <ChainAndAssetFilter context="destination" />
-          </Card>
-          <Card>
-            <h1 className="text-2xl">Styling</h1>
-            <ChainAndAssetFilter context="source" />
-            <ChainAndAssetFilter context="destination" />
-          </Card>
+          <DefaultRoute />
+          <NetworksAndAssets />
+          <Theming />
         </div>
       </div>
 
@@ -57,14 +47,7 @@ export default function Studio() {
 
         <div className="flex flex-1 flex-col items-center justify-center">
           <div className="w-full max-w-md">
-            <Widget
-              disableShadowDom
-              filter={{
-                source: {
-                  "cosmoshub-4": ["uatom"],
-                },
-              }}
-            />
+            <Widget disableShadowDom theme={theme} />
           </div>
         </div>
 

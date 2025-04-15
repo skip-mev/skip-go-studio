@@ -1,10 +1,10 @@
 import { create } from "zustand";
-import { defaultTheme } from "@skip-go/widget"
+import { defaultTheme, Theme } from "@skip-go/widget"
 
-export const useStylingStore = create<{
+export const useStudioStore = create<{
   backgroundColor: string;
   borderRadius: number;
-  theme: typeof defaultTheme;
+  theme: Theme;
 }>(() => ({
   backgroundColor: "#3D3D3D",
   borderRadius: 15,

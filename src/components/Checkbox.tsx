@@ -13,7 +13,11 @@ export const Checkbox = ({
         "w-6 h-6 rounded-full flex items-center justify-center",
         checked ? "bg-[#FFFFFF]" : "bg-[#3A3A3A]"
       )}
-      onClick={onClick}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onClick();
+      }}
     />
   );
 };

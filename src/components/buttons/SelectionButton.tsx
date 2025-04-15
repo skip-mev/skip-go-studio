@@ -1,30 +1,32 @@
-import { useStylingStore } from "@/store/styling";
+import { useStudioStore } from "@/store/studio";
 import { ChevronDownIcon } from "../icons/ChevronDown";
-import { ChevronUpIcon } from "../icons/ChevronUp";
+import { cn } from "@/utils/ui";
 
 export const SelectionButton = ({
   isOpen,
   setIsOpen,
+  text,
 }: {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
+  isOpen?: boolean;
+  setIsOpen?: (isOpen: boolean) => void;
+  text?: string;
 }) => {
-  const { borderRadius } = useStylingStore();
+  const { borderRadius } = useStudioStore();
   return (
     <button
-      onClick={() => {
-        setIsOpen(!isOpen);
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIsOpen?.(!isOpen);
       }}
       className="flex flex-row items-center justify-between px-5 gap-2 bg-[#1D1D1D] h-10 w-44"
       style={{
         borderRadius: borderRadius / 1.5,
       }}
     >
-      <span>All</span>
+      <span>{text}</span>
 
-      {isOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
+      <ChevronDownIcon className={cn(isOpen && "rotate-180")} />
     </button>
   );
 };
-// 15 / 10 =
-//

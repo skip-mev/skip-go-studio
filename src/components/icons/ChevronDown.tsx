@@ -1,6 +1,8 @@
+import { cn } from "@/utils/ui";
 import { SVGProps } from "react";
 
 export const ChevronDownIcon = (props: SVGProps<SVGSVGElement>) => {
+  const { className, ...rest } = props;
   return (
     <svg
       width="15"
@@ -8,7 +10,8 @@ export const ChevronDownIcon = (props: SVGProps<SVGSVGElement>) => {
       viewBox="0 0 15 10"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      {...props}
+      className={cn("transition-transform duration-200", className)}
+      {...rest}
     >
       <path
         d="M4.99991 4.99991L4.99991 1.49427e-06L4.76831e-07 9.32687e-07L2.58278e-07 4.99991L4.99991 4.99991Z"
