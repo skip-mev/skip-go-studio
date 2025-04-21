@@ -46,7 +46,7 @@ export const NetworksAndAssets = () => {
           Destinations
         </button>
       </div>
-      <ChainSelection context="source" />
+      <ChainSelection context={context} />
     </AccordionCard>
   );
 };

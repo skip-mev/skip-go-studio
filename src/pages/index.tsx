@@ -10,7 +10,7 @@ import { Theming } from "@/components/sections/Theming/Theming";
 import { AssetSelection } from "@/components/sections/NetworkAndAssets/AssetSelection";
 
 export default function Studio() {
-  const { backgroundColor, theme } = useStudioStore();
+  const { backgroundColor, theme, defaultRoute } = useStudioStore();
 
   const saveBackgroundColor = debounce((color: string) => {
     useStudioStore.setState({
@@ -52,7 +52,11 @@ export default function Studio() {
 
         <div className="flex flex-1 flex-col items-center justify-center">
           <div className="w-full max-w-md">
-            <Widget disableShadowDom theme={theme} />
+            <Widget
+              disableShadowDom
+              theme={theme}
+              defaultRoute={defaultRoute}
+            />
           </div>
         </div>
 

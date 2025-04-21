@@ -3,20 +3,16 @@ import { SelectionButton } from "@/components/buttons/SelectionButton";
 import { useAssetsQuery } from "@/hooks/useAssetsQuery";
 import { useChainsQuery } from "@/hooks/useChainsQuery";
 import { useStudioStore } from "@/store/studio";
-import { XMarkIcon } from "@heroicons/react/20/solid";
-import { openAssetAndChainSelectorModal } from "@skip-go/widget";
+import { openAssetAndChainSelectorModal, resetWidget } from "@skip-go/widget";
 
 export const DefaultRoute = () => {
   const { defaultRoute } = useStudioStore();
   const { data: chains } = useChainsQuery();
   const { data: assets } = useAssetsQuery();
-  console.log("chains", chains);
-  console.log("assets", assets);
-  console.log("defaultRoute", defaultRoute);
+
   const srcChain = chains?.find(
     (chain) => chain.chainID === defaultRoute?.srcChainId
   );
-  console.log("srcChain", srcChain);
   const destChain = chains?.find(
     (chain) => chain.chainID === defaultRoute?.destChainId
   );
@@ -25,7 +21,6 @@ export const DefaultRoute = () => {
         (asset) => asset.denom === defaultRoute?.srcAssetDenom
       )
     : undefined;
-  console.log("srcAsset", srcAsset);
   const destAsset = destChain?.chainID
     ? assets?.[destChain?.chainID].find(
         (asset) => asset.denom === defaultRoute?.destAssetDenom
@@ -102,6 +97,7 @@ export const DefaultRoute = () => {
           useStudioStore.setState({
             defaultRoute: undefined,
           });
+          resetWidget();
         }}
         className="justify-self-end self-end text-[#8E8E8E] text-sm"
       >
