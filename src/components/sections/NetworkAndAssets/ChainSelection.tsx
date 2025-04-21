@@ -8,34 +8,21 @@ import { useStudioStore } from "@/store/studio";
 import { ColorIcon } from "../../icons/ColorIcon";
 import { matchSorter } from "match-sorter";
 import { useChainsQuery } from "@/hooks/useChainsQuery";
+import { useAssetsQuery } from "@/hooks/useAssetsQuery";
 
 export const ChainSelection = ({}: { context: "source" | "destination" }) => {
   const [searchInput, setSearchInput] = useState("");
-  const [filter, setFilter] = useState<"evm" | "cosmos" | "svm" | "all">("all");
 
-  const { data: chains, isLoading } = useChainsQuery({
+  const { data: chains, isLoading: isChainsLoading } = useChainsQuery({
     select: (data) => {
-      return matchSorter(
-        data.filter((chain) => {
-          if (filter === "all") {
-            return true;
-          } else if (filter === "evm") {
-            return chain.chainType === "evm";
-          } else if (filter === "cosmos") {
-            return chain.chainType === "cosmos";
-          } else if (filter === "svm") {
-            return chain.chainType === "svm";
-          }
-          return false;
-        }),
-        searchInput,
-        {
-          keys: ["chainName", "chainID"],
-          threshold: matchSorter.rankings.CONTAINS,
-        }
-      );
+      return matchSorter(data, searchInput, {
+        keys: ["chainName", "chainID"],
+        threshold: matchSorter.rankings.CONTAINS,
+      });
     },
   });
+
+  const { data: assets, isLoading: isAssetsLoading } = useAssetsQuery();
 
   const { borderRadius } = useStudioStore();
 
@@ -61,50 +48,22 @@ export const ChainSelection = ({}: { context: "source" | "destination" }) => {
         />
       </div>
       <div className="flex flex-row gap-2">
-        <FilterButton>Select All</FilterButton>
-        <FilterButton>Deselect All</FilterButton>
         <FilterButton
-          className={cn(filter.includes("evm") && "pill-button-active")}
           onClick={() => {
-            setFilter((v) => {
-              if (v === "evm") {
-                return "all";
-              }
-              return "evm";
-            });
+            useStudioStore.setState(() => ({
+              filter: undefined,
+            }));
           }}
         >
-          EVM
+          Select All
         </FilterButton>
-        <FilterButton
-          className={cn(filter.includes("cosmos") && "pill-button-active")}
-          onClick={() => {
-            setFilter((v) => {
-              if (v === "cosmos") {
-                return "all";
-              }
-              return "cosmos";
-            });
-          }}
-        >
-          IBC
-        </FilterButton>
-        <FilterButton
-          className={cn(filter.includes("svm") && "pill-button-active")}
-          onClick={() => {
-            setFilter((v) => {
-              if (v === "svm") {
-                return "all";
-              }
-              return "svm";
-            });
-          }}
-        >
-          Solana
-        </FilterButton>
+        <FilterButton onClick={() => {}}>Deselect All</FilterButton>
+        <FilterButton onClick={() => {}}>EVM</FilterButton>
+        <FilterButton onClick={() => {}}>IBC</FilterButton>
+        <FilterButton onClick={() => {}}>Solana</FilterButton>
       </div>
 
-      {isLoading && (
+      {isChainsLoading && (
         <div className="flex h-96 w-full items-center justify-center">
           <ColorIcon className="animate-spin" color="#A5A5A5" />
         </div>
