@@ -6,10 +6,12 @@ export const SelectionButton = ({
   isOpen,
   setIsOpen,
   text,
+  children,
 }: {
   isOpen?: boolean;
   setIsOpen?: (isOpen: boolean) => void;
   text?: string;
+  children?: React.ReactNode;
 }) => {
   const { borderRadius } = useStudioStore();
   return (
@@ -24,8 +26,8 @@ export const SelectionButton = ({
         borderRadius: borderRadius / 1.5,
       }}
     >
-      <span>{text}</span>
-
+      {text && <span>{text}</span>}
+      {children}
       <ChevronDownIcon className={cn(isOpen && "rotate-180")} />
     </button>
   );

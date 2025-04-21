@@ -1,4 +1,4 @@
-import { ChainAndAssetFilter } from "./ChainAndAssetFilter";
+import { ChainSelection } from "./ChainSelection";
 import { AccordionCard } from "../../AccordionCard";
 import { useState } from "react";
 import { cn } from "@/utils/ui";
@@ -46,7 +46,7 @@ export const NetworksAndAssets = () => {
           Destinations
         </button>
       </div>
-      <ChainAndAssetFilter context="source" />
+      <ChainSelection context="source" />
     </AccordionCard>
   );
 };

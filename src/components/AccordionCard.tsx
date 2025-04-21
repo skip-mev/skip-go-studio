@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import { ButtonCard } from "./Card";
+import { Card } from "./Card";
 import { ChevronDownIcon } from "./icons/ChevronDown";
 import { cn } from "@/utils/ui";
 import { AnimatePresence, motion } from "motion/react";
@@ -13,12 +13,13 @@ export const AccordionCard = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <ButtonCard
+    <Card
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
         setIsOpen((v) => !v);
       }}
+      className="cursor-pointer"
     >
       <div className="flex flex-row items-center justify-between">
         <h2 className="text-2xl">{title}</h2>
@@ -37,6 +38,6 @@ export const AccordionCard = ({
           </motion.div>
         )}
       </AnimatePresence>
-    </ButtonCard>
+    </Card>
   );
 };

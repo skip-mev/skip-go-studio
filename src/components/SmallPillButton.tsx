@@ -1,18 +1,23 @@
 import { useStudioStore } from "@/store/studio";
 import { cn } from "@/utils/ui";
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, DetailedHTMLProps, HTMLAttributes } from "react";
 
 export const SmallPillButton = (
-  props: ButtonHTMLAttributes<HTMLButtonElement>
+  props: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 ) => {
-  const { className, ...rest } = props;
+  const { className, onClick, ...rest } = props;
   const { borderRadius } = useStudioStore();
   return (
-    <button
-      className={cn("bg-[#1D1D1D] px-3 py-1.5 text-[13px]", className)}
+    <div
+      className={cn(
+        "bg-[#1D1D1D] px-3 py-1.5 text-[13px]",
+        !onClick && "!cursor-default",
+        className
+      )}
       style={{
         borderRadius: borderRadius / 1.5,
       }}
+      onClick={onClick}
       {...rest}
     />
   );

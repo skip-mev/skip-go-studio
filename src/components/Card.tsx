@@ -9,7 +9,10 @@ export const Card = (
   const { borderRadius } = useStudioStore();
   return (
     <div
-      className={cn("flex flex-col gap-6 bg-black py-9 px-10", className)}
+      className={cn(
+        "flex flex-col gap-6 bg-black py-9 px-10 w-[480px]",
+        className
+      )}
       style={{
         borderRadius: borderRadius,
       }}
@@ -25,7 +28,10 @@ export const ButtonCard = (
   const { borderRadius } = useStudioStore();
   return (
     <button
-      className={cn("flex flex-col gap-6 bg-black py-9 px-10", className)}
+      className={cn(
+        "flex flex-col gap-6 bg-black py-9 px-10 w-[480px]",
+        className
+      )}
       style={{
         borderRadius: borderRadius,
       }}
