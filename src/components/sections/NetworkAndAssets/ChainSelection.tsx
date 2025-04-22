@@ -1,17 +1,30 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
-import { useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { FilterButton, SmallPillButton } from "../../SmallPillButton";
-import { cn } from "@/utils/ui";
 import { Checkbox } from "../../Checkbox";
-import { useStudioStore } from "@/store/studio";
+import {
+  useAssetSelectorModalStore,
+  useDestinationNetworkAndAssetsStore,
+  useSourceNetworkAndAssetsStore,
+  useStudioStore,
+} from "@/store/studio";
 import { ColorIcon } from "../../icons/ColorIcon";
 import { matchSorter } from "match-sorter";
 import { useChainsQuery } from "@/hooks/useChainsQuery";
 import { useAssetsQuery } from "@/hooks/useAssetsQuery";
 
-export const ChainSelection = ({}: { context: "source" | "destination" }) => {
+export const ChainSelection = ({
+  context,
+}: {
+  context: "source" | "destination";
+}) => {
   const [searchInput, setSearchInput] = useState("");
+  const { sourceSelectedChains } = useSourceNetworkAndAssetsStore();
+  const { destinationSelectedChains } = useDestinationNetworkAndAssetsStore();
+
+  const selectedChains =
+    context === "source" ? sourceSelectedChains : destinationSelectedChains;
 
   const { data: chains, isLoading: isChainsLoading } = useChainsQuery({
     select: (data) => {
@@ -22,7 +35,37 @@ export const ChainSelection = ({}: { context: "source" | "destination" }) => {
     },
   });
 
-  const { data: assets, isLoading: isAssetsLoading } = useAssetsQuery();
+  const setSelectedChains = useCallback(
+    (chains: string[]) => {
+      if (context === "source") {
+        useSourceNetworkAndAssetsStore.setState({
+          sourceSelectedChains: chains,
+        });
+      } else {
+        useDestinationNetworkAndAssetsStore.setState({
+          destinationSelectedChains: chains,
+        });
+      }
+    },
+    [context]
+  );
+
+  // Set the selected chains in the store when the component mounts
+  useEffect(() => {
+    if (
+      chains &&
+      sourceSelectedChains === undefined &&
+      destinationSelectedChains === undefined
+    ) {
+      useSourceNetworkAndAssetsStore.setState({
+        sourceSelectedChains: chains.map((chain) => chain.chainID),
+      });
+      useDestinationNetworkAndAssetsStore.setState({
+        destinationSelectedChains: chains.map((chain) => chain.chainID),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chains]);
 
   const { borderRadius } = useStudioStore();
 
@@ -47,21 +90,59 @@ export const ChainSelection = ({}: { context: "source" | "destination" }) => {
           }}
         />
       </div>
-      <div className="flex flex-row gap-2">
-        <FilterButton
-          onClick={() => {
-            useStudioStore.setState(() => ({
-              filter: undefined,
-            }));
-          }}
-        >
-          Select All
-        </FilterButton>
-        <FilterButton onClick={() => {}}>Deselect All</FilterButton>
-        <FilterButton onClick={() => {}}>EVM</FilterButton>
-        <FilterButton onClick={() => {}}>IBC</FilterButton>
-        <FilterButton onClick={() => {}}>Solana</FilterButton>
-      </div>
+      {chains && (
+        <div className="flex flex-row gap-2">
+          <FilterButton
+            onClick={() => {
+              setSelectedChains(chains.map((chain) => chain.chainID));
+            }}
+          >
+            Select All
+          </FilterButton>
+          <FilterButton
+            onClick={() => {
+              setSelectedChains([]);
+            }}
+          >
+            Deselect All
+          </FilterButton>
+          <FilterButton
+            onClick={() => {
+              if (chains) {
+                setSelectedChains(
+                  chains
+                    .filter((chain) => chain.chainType === "evm")
+                    .map((chain) => chain.chainID)
+                );
+              }
+            }}
+          >
+            EVM
+          </FilterButton>
+          <FilterButton
+            onClick={() => {
+              setSelectedChains(
+                chains
+                  .filter((chain) => chain.chainType === "cosmos")
+                  .map((chain) => chain.chainID)
+              );
+            }}
+          >
+            IBC
+          </FilterButton>
+          <FilterButton
+            onClick={() => {
+              setSelectedChains(
+                chains
+                  .filter((chain) => chain.chainType === "svm")
+                  .map((chain) => chain.chainID)
+              );
+            }}
+          >
+            Solana
+          </FilterButton>
+        </div>
+      )}
 
       {isChainsLoading && (
         <div className="flex h-96 w-full items-center justify-center">
@@ -76,6 +157,20 @@ export const ChainSelection = ({}: { context: "source" | "destination" }) => {
                 key={chain.chainID}
                 name={chain.chainName}
                 id={chain.chainID}
+                checked={!!selectedChains?.includes(chain.chainID)}
+                setChecked={() => {
+                  if (selectedChains?.includes(chain.chainID)) {
+                    setSelectedChains(
+                      selectedChains.filter((id) => id !== chain.chainID)
+                    );
+                  } else {
+                    setSelectedChains([
+                      ...(selectedChains || []),
+                      chain.chainID,
+                    ]);
+                  }
+                }}
+                context={context}
               />
             ))
           ) : (
@@ -89,26 +184,90 @@ export const ChainSelection = ({}: { context: "source" | "destination" }) => {
   );
 };
 
-const ChainCheckbox = ({ name, id }: { name: string; id: string }) => {
-  const [checked, setChecked] = useState(false);
+const ChainCheckbox = ({
+  name,
+  id,
+  checked,
+  setChecked,
+  context,
+}: {
+  name: string;
+  id: string;
+  checked: boolean;
+  setChecked: () => void;
+  context: "source" | "destination";
+}) => {
+  const { sourceSelectedAssets, sourceSelectedChains } =
+    useSourceNetworkAndAssetsStore();
+  const { destinationSelectedAssets, destinationSelectedChains } =
+    useDestinationNetworkAndAssetsStore();
 
-  // const { data: assets } = useQuery({
-  //   queryKey: ["assets"],
-  //   queryFn: async () => {
-  //     return await skipClient.assets({
-  //       includeCW20Assets: true,
-  //       includeEvmAssets: true,
-  //       includeSvmAssets: true,
-  //     });
-  //   },
-  //   select: (data) => {
-  //     return data[id];
-  //   },
-  // });
+  const { data: assets } = useAssetsQuery();
+
+  const selectedChains =
+    context === "source" ? sourceSelectedChains : destinationSelectedChains;
+  const selectedAssets =
+    context === "source" ? sourceSelectedAssets : destinationSelectedAssets;
+  const selectedChainAssets = selectedAssets?.[id];
+  const fullAssets = assets?.[id];
+
+  const setSelectedChains = useCallback(
+    (chains: string[]) => {
+      if (context === "source") {
+        useSourceNetworkAndAssetsStore.setState({
+          sourceSelectedChains: chains,
+        });
+      } else {
+        useDestinationNetworkAndAssetsStore.setState({
+          destinationSelectedChains: chains,
+        });
+      }
+    },
+    [context]
+  );
+
+  const assetsDisplayedText = useMemo(() => {
+    if (selectedChainAssets?.length === 1) {
+      return fullAssets?.find(
+        (asset) => asset.denom === selectedChainAssets?.[0]
+      )?.recommendedSymbol;
+    }
+    if (selectedChainAssets?.length === fullAssets?.length) {
+      return "All assets";
+    }
+    if (selectedChainAssets === undefined) {
+      return "All assets";
+    }
+    if (selectedChainAssets.length === 0) {
+      return "All assets";
+    }
+    return `${selectedChainAssets.length} assets`;
+  }, [selectedChainAssets, fullAssets]);
+
+  // when 0 assets are selected, remove the chain from the selected chains
+  useEffect(() => {
+    if (selectedChainAssets?.length === 0 && selectedChains) {
+      setSelectedChains(selectedChains.filter((chainId) => chainId !== id));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, selectedChainAssets]);
+
+  // when more than 0 assets are selected and the chain is unchecked, add the chain to the selected chains
+  useEffect(() => {
+    if (
+      selectedChainAssets &&
+      selectedChainAssets?.length > 0 &&
+      !checked &&
+      selectedChains
+    ) {
+      setSelectedChains([...selectedChains, id]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id, checked, selectedChainAssets]);
 
   return (
     <div
-      className="flex flex-row justify-between cursor-default"
+      className="flex flex-row justify-between cursor-default group"
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -118,15 +277,17 @@ const ChainCheckbox = ({ name, id }: { name: string; id: string }) => {
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          setChecked(!checked);
+          setChecked();
         }}
         className="flex flex-row gap-2 items-center py-2  "
       >
         <div className="flex flex-row gap-2 items-center">
-          <Checkbox checked={checked} />
-          <span className="capitalize">{name}</span>
+          <div>
+            <Checkbox checked={checked} />
+          </div>
+          <span className="capitalize line-clamp-1">{name}</span>
           <SmallPillButton
-            className="text-[#A5A5A5] font-abcdiatype-mono px-2.5 py-1 line-clamp-1 !cursor-pointer"
+            className="text-[#A5A5A5] font-abcdiatype-mono px-2.5 py-1 line-clamp-1 !cursor-pointer max-w-[150px]"
             style={{
               borderRadius: "1000px",
             }}
@@ -140,9 +301,13 @@ const ChainCheckbox = ({ name, id }: { name: string; id: string }) => {
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
+          useAssetSelectorModalStore.setState({
+            chainId: id,
+            context,
+          });
         }}
       >
-        <span>All assets</span>
+        <span>{assetsDisplayedText}</span>
       </button>
     </div>
   );

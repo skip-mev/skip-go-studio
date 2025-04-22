@@ -2,7 +2,7 @@
 import { Widget } from "@skip-go/widget";
 import { debounce } from "lodash";
 
-import { useStudioStore } from "@/store/studio";
+import { useAssetSelectorModalStore, useStudioStore } from "@/store/studio";
 import { Card } from "@/components/Card";
 import { NetworksAndAssets } from "@/components/sections/NetworkAndAssets/NetworksAndAssets";
 import { DefaultRoute } from "@/components/sections/DefaultRoute/DefaultRoute";
@@ -11,6 +11,7 @@ import { AssetSelection } from "@/components/sections/NetworkAndAssets/AssetSele
 
 export default function Studio() {
   const { backgroundColor, theme, defaultRoute } = useStudioStore();
+  const { chainId } = useAssetSelectorModalStore();
 
   const saveBackgroundColor = debounce((color: string) => {
     useStudioStore.setState({
@@ -38,8 +39,7 @@ export default function Studio() {
           <NetworksAndAssets />
           <Theming />
         </div>
-
-        <AssetSelection />
+        {!!chainId && <AssetSelection />}
       </div>
 
       {/* Right Content */}
