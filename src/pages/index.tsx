@@ -8,17 +8,19 @@ import { NetworksAndAssets } from "@/components/sections/NetworkAndAssets/Networ
 import { DefaultRoute } from "@/components/sections/DefaultRoute/DefaultRoute";
 import { Theming } from "@/components/sections/Theming/Theming";
 import { AssetSelection } from "@/components/sections/NetworkAndAssets/AssetSelection";
+import { useWidgetFilters } from "@/hooks/useWidgetFilters";
 
 export default function Studio() {
   const { backgroundColor, theme, defaultRoute } = useStudioStore();
   const { chainId } = useAssetSelectorModalStore();
-
   const saveBackgroundColor = debounce((color: string) => {
     useStudioStore.setState({
       backgroundColor: color,
     });
   }, 200);
 
+  const filters = useWidgetFilters();
+  console.log(filters);
   return (
     <div
       className="bg-background text-foreground flex h-screen overflow-y-auto"
@@ -52,11 +54,7 @@ export default function Studio() {
 
         <div className="flex flex-1 flex-col items-center justify-center">
           <div className="w-full max-w-md">
-            <Widget
-              disableShadowDom
-              theme={theme}
-              defaultRoute={defaultRoute}
-            />
+            <Widget theme={theme} defaultRoute={defaultRoute} {...filters} />
           </div>
         </div>
 

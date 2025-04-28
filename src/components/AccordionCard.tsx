@@ -7,9 +7,11 @@ import { AnimatePresence, motion } from "motion/react";
 export const AccordionCard = ({
   title,
   children,
+  onClick,
 }: {
   title: string;
   children: ReactNode;
+  onClick?: (isOpen: boolean) => void;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
@@ -18,6 +20,7 @@ export const AccordionCard = ({
         e.preventDefault();
         e.stopPropagation();
         setIsOpen((v) => !v);
+        onClick?.(isOpen);
       }}
       className="cursor-pointer"
     >
@@ -28,11 +31,11 @@ export const AccordionCard = ({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ height: 0 }}
+            animate={{ height: "auto" }}
+            exit={{ height: 0 }}
             transition={{ duration: 0.2 }}
-            className="gap-4 flex flex-col"
+            className="gap-4 flex flex-col select-none overflow-hidden"
           >
             {children}
           </motion.div>

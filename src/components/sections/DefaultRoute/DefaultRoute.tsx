@@ -3,7 +3,7 @@ import { SelectionButton } from "@/components/buttons/SelectionButton";
 import { useAssetsQuery } from "@/hooks/useAssetsQuery";
 import { useChainsQuery } from "@/hooks/useChainsQuery";
 import { useStudioStore } from "@/store/studio";
-import { openAssetAndChainSelectorModal, resetWidget } from "@skip-go/widget";
+import { openAssetAndChainSelectorModal } from "@skip-go/widget";
 
 export const DefaultRoute = () => {
   const { defaultRoute } = useStudioStore();
@@ -95,9 +95,13 @@ export const DefaultRoute = () => {
           e.preventDefault();
           e.stopPropagation();
           useStudioStore.setState({
-            defaultRoute: undefined,
+            defaultRoute: {
+              destChainId: undefined,
+              destAssetDenom: undefined,
+              srcChainId: undefined,
+              srcAssetDenom: undefined,
+            },
           });
-          resetWidget();
         }}
         className="justify-self-end self-end text-[#8E8E8E] text-sm"
       >

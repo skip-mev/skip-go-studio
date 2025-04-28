@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "@skip-go/widget": "^3.7.3",
+    "@skip-go/widget": "^3.8.6",
     "@tanstack/react-query": "^5.70.0",
     "@tanstack/react-virtual": "^3.13.6",
     "match-sorter": "^8.0.0",

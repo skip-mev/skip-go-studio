@@ -12,7 +12,7 @@ import {
   useStudioStore,
 } from "@/store/studio";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export const AssetSelection = () => {
   const { borderRadius } = useStudioStore();
@@ -24,10 +24,11 @@ export const AssetSelection = () => {
 
   const { data: chains } = useChainsQuery();
   const { data: assets, isLoading: isAssetsLoading } = useAssetsQuery();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const selectedAssets =
     context === "source" ? sourceSelectedAssets : destinationSelectedAssets;
-  console.log("selectedAssets", selectedAssets);
+
   const setSelectedAssets = useCallback(
     (assets: string[]) => {
       if (!chainId) return;
@@ -84,8 +85,28 @@ export const AssetSelection = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chain, chainAssets, chainId]);
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        useAssetSelectorModalStore.setState({
+          chainId: undefined,
+        });
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [containerRef]);
+
   return (
-    <Card className="absolute ml-[528px] mt-6 h-[calc(100vh-48px)] z-10">
+    <Card
+      className="absolute ml-[528px] mt-6 h-[calc(100vh-48px)] z-10"
+      ref={containerRef}
+    >
       <button
         className="flex flex-row gap-6 items-center"
         onClick={() => {

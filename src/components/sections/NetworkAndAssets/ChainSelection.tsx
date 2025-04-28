@@ -13,6 +13,7 @@ import { ColorIcon } from "../../icons/ColorIcon";
 import { matchSorter } from "match-sorter";
 import { useChainsQuery } from "@/hooks/useChainsQuery";
 import { useAssetsQuery } from "@/hooks/useAssetsQuery";
+import { cn } from "@/utils/ui";
 
 export const ChainSelection = ({
   context,
@@ -35,6 +36,8 @@ export const ChainSelection = ({
     },
   });
 
+  const { isLoading: isAssetsLoading, data: assets } = useAssetsQuery();
+
   const setSelectedChains = useCallback(
     (chains: string[]) => {
       if (context === "source") {
@@ -44,6 +47,45 @@ export const ChainSelection = ({
       } else {
         useDestinationNetworkAndAssetsStore.setState({
           destinationSelectedChains: chains,
+        });
+      }
+    },
+    [context]
+  );
+
+  const clearAssets = useCallback(() => {
+    if (context === "source") {
+      useSourceNetworkAndAssetsStore.setState({
+        sourceSelectedAssets: undefined,
+      });
+    } else {
+      useDestinationNetworkAndAssetsStore.setState({
+        destinationSelectedAssets: undefined,
+      });
+    }
+  }, [context]);
+
+  const clearChainAssets = useCallback(
+    (chainId: string) => {
+      if (context === "source") {
+        useSourceNetworkAndAssetsStore.setState((v) => {
+          const assets = v.sourceSelectedAssets;
+          delete assets?.[chainId];
+          return {
+            sourceSelectedAssets: {
+              ...assets,
+            },
+          };
+        });
+      } else {
+        useDestinationNetworkAndAssetsStore.setState((v) => {
+          const assets = v.destinationSelectedAssets;
+          delete assets?.[chainId];
+          return {
+            destinationSelectedAssets: {
+              ...assets,
+            },
+          };
         });
       }
     },
@@ -95,6 +137,7 @@ export const ChainSelection = ({
           <FilterButton
             onClick={() => {
               setSelectedChains(chains.map((chain) => chain.chainID));
+              clearAssets();
             }}
           >
             Select All
@@ -102,19 +145,19 @@ export const ChainSelection = ({
           <FilterButton
             onClick={() => {
               setSelectedChains([]);
+              clearAssets();
             }}
           >
             Deselect All
           </FilterButton>
           <FilterButton
             onClick={() => {
-              if (chains) {
-                setSelectedChains(
-                  chains
-                    .filter((chain) => chain.chainType === "evm")
-                    .map((chain) => chain.chainID)
-                );
-              }
+              setSelectedChains(
+                chains
+                  .filter((chain) => chain.chainType === "evm")
+                  .map((chain) => chain.chainID)
+              );
+              clearAssets();
             }}
           >
             EVM
@@ -126,6 +169,7 @@ export const ChainSelection = ({
                   .filter((chain) => chain.chainType === "cosmos")
                   .map((chain) => chain.chainID)
               );
+              clearAssets();
             }}
           >
             IBC
@@ -137,6 +181,7 @@ export const ChainSelection = ({
                   .filter((chain) => chain.chainType === "svm")
                   .map((chain) => chain.chainID)
               );
+              clearAssets();
             }}
           >
             Solana
@@ -144,12 +189,12 @@ export const ChainSelection = ({
         </div>
       )}
 
-      {isChainsLoading && (
+      {(isChainsLoading || isAssetsLoading) && (
         <div className="flex h-96 w-full items-center justify-center">
           <ColorIcon className="animate-spin" color="#A5A5A5" />
         </div>
       )}
-      {chains && (
+      {chains && assets && (
         <div className="h-96 overflow-y-auto contain-strict flex flex-col gap-0">
           {chains.length ? (
             chains.map((chain) => (
@@ -163,6 +208,7 @@ export const ChainSelection = ({
                     setSelectedChains(
                       selectedChains.filter((id) => id !== chain.chainID)
                     );
+                    clearChainAssets(chain.chainID);
                   } else {
                     setSelectedChains([
                       ...(selectedChains || []),
@@ -307,7 +353,9 @@ const ChainCheckbox = ({
           });
         }}
       >
-        <span>{assetsDisplayedText}</span>
+        <span className={cn(checked ? "text-[#FFFFFF]" : "text-[#3A3A3A]")}>
+          {assetsDisplayedText}
+        </span>
       </button>
     </div>
   );

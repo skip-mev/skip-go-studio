@@ -2210,10 +2210,10 @@
     "@sentry/core" "8.55.0"
     hoist-non-react-statics "^3.3.2"
 
-"@skip-go/client@0.16.29":
-  version "0.16.29"
-  resolved "https://registry.yarnpkg.com/@skip-go/client/-/client-0.16.29.tgz#17188284c73c48fe851c2f9a80e9213fa2fb9005"
-  integrity sha512-9lGg16zqonnth6b0LK8IHULiIROoa9J9vaQuu5ymgh75J3dFbSghQtfY53rxZWvUVcIEw916+IZiqhmFiZadcg==
+"@skip-go/client@0.16.34":
+  version "0.16.34"
+  resolved "https://registry.yarnpkg.com/@skip-go/client/-/client-0.16.34.tgz#6b49d344ea670cb82c569f5e7b459487e7952225"
+  integrity sha512-g9YCbg77qsm3sEdyLEK1SLCTFbpYq+WdIP0g/LwnRyseBF95ciwJYn+77lFC9cKUtoSAqZ2bX9skSBrGXxfkyA==
   dependencies:
     "@cosmjs/amino" "0.33.1"
     "@cosmjs/cosmwasm-stargate" "0.33.1"
@@ -2231,10 +2231,10 @@
     cosmjs-types "^0.9.0"
     keccak "3.0.4"
 
-"@skip-go/widget@^3.7.3":
-  version "3.7.3"
-  resolved "https://registry.yarnpkg.com/@skip-go/widget/-/widget-3.7.3.tgz#4295d4684a22df80c31cb94a109608a20ed6e664"
-  integrity sha512-fuCBG9UCvv7RNBkBsxRvYVVhaQ/5CQc60l0o1sGWx3kMfCQNTBcfzb2b4Yv0h82uv5L64r+exanYAQAeCP4fYA==
+"@skip-go/widget@^3.8.6":
+  version "3.8.6"
+  resolved "https://registry.yarnpkg.com/@skip-go/widget/-/widget-3.8.6.tgz#f23462a3ce36575cfb07eb5ddadf39ac1e17a569"
+  integrity sha512-ClxvfYluVrjZ47J14pBhlPRjlQ3ZuhjLFnG/hSlJQu93VYdR1UsaIaYNCEz3DgviMPRh0a+83kg9m6/C7UlEsQ==
   dependencies:
     "@amplitude/analytics-browser" "^2.11.12"
     "@cosmjs/amino" "0.31.3"
@@ -2253,7 +2253,7 @@
     "@penumbra-zone/transport-dom" "^7.5.0"
     "@r2wc/react-to-web-component" "^2.0.3"
     "@sentry/react" "^8.46.0"
-    "@skip-go/client" "0.16.29"
+    "@skip-go/client" "0.16.34"
     "@solana/spl-token" "^0.4.8"
     "@solana/wallet-adapter-backpack" "^0.1.14"
     "@solana/wallet-adapter-coinbase" "^0.1.19"
