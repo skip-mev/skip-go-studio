@@ -12,6 +12,7 @@ import { useWidgetFilters } from "@/hooks/useWidgetFilters";
 import { Bridges } from "@/components/sections/Bridges/Bridges";
 import { SwapVenues } from "@/components/sections/SwapVenues/SwapVenues";
 import { Affiliates } from "@/components/sections/AffiliateFees/AffiliateFees";
+import { useChainIdsToAffiliates } from "@/hooks/useChainIdsToAffiliates";
 
 export default function Studio() {
   const { backgroundColor, theme, defaultRoute, swapVenues, bridges } =
@@ -24,7 +25,8 @@ export default function Studio() {
   }, 200);
 
   const filters = useWidgetFilters();
-  console.log(filters);
+  const chainIdsToAffiliates = useChainIdsToAffiliates();
+  console.log(chainIdsToAffiliates);
   return (
     <div
       className="bg-background text-foreground flex h-screen overflow-y-auto"
@@ -69,6 +71,7 @@ export default function Studio() {
                 swapVenues,
                 bridges,
               }}
+              chainIdsToAffiliates={chainIdsToAffiliates}
             />
           </div>
         </div>

@@ -12,7 +12,8 @@ export const useStudioStore = create<{
   defaultRoute?: WidgetProps["defaultRoute"];
   bridges?: Unpacked<Awaited<ReturnType<typeof skipClient.bridges>>>['id'][];
   swapVenues?: { chainId: string, name: string }[];
-  chainIdsToAffiliates?: WidgetProps["chainIdsToAffiliates"];
+  chainIdsToAddresses?: Record<string, string[]>;
+  basisPointsFee?: Record<string, string>;
 
 }>(() => ({
   assetSelectorModalOpen: false,
@@ -22,7 +23,8 @@ export const useStudioStore = create<{
   defaultRoute: undefined,
   bridges: undefined,
   swapVenues: undefined,
-  chainIdsToAffiliates: undefined,
+  chainIdsToAddresses: undefined,
+  basisPointsFee: undefined
 }));
 
 export const useSourceNetworkAndAssetsStore = create<{

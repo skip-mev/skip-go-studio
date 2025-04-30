@@ -2,7 +2,7 @@ import { AccordionCard } from "@/components/AccordionCard";
 import { useChainsQuery } from "@/hooks/useChainsQuery";
 import { useSwapVenuesQuery } from "@/hooks/useSwapVenues";
 import { Chain } from "@skip-go/client";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { useStudioStore } from "@/store/studio";
 import { InformationCircleIcon, XMarkIcon } from "@heroicons/react/20/solid";
@@ -11,8 +11,8 @@ import { PlusIcon } from "@heroicons/react/20/solid";
 export const Affiliates = () => {
   const { data: chains } = useChainsQuery();
   const { data: swapVenues } = useSwapVenuesQuery();
-  const { chainIdsToAffiliates, borderRadius } = useStudioStore();
-  console.log("chainIdsToAffiliates", chainIdsToAffiliates);
+  const { chainIdsToAddresses, borderRadius, basisPointsFee } =
+    useStudioStore();
   const swapVenuesChains = useMemo(() => {
     const chainIds = [
       ...new Set(swapVenues?.map((swapVenue) => swapVenue.chainID)),
@@ -33,18 +33,16 @@ export const Affiliates = () => {
     index: number
   ) => {
     useStudioStore.setState((prev) => {
-      const prevAffiliates =
-        prev.chainIdsToAffiliates?.[chainId]?.affiliates || [];
-      const updated = [...prevAffiliates];
-      updated[index] = { ...updated[index], address: value };
-
+      const data = prev.chainIdsToAddresses
+        ? { ...prev.chainIdsToAddresses }
+        : {};
+      if (data[chainId]) {
+        data[chainId][index] = value;
+      } else {
+        data[chainId] = [value];
+      }
       return {
-        chainIdsToAffiliates: {
-          ...prev.chainIdsToAffiliates,
-          [chainId]: {
-            affiliates: updated,
-          },
-        },
+        chainIdsToAddresses: data,
       };
     });
   };
@@ -55,40 +53,30 @@ export const Affiliates = () => {
       <ChainSelection
         chains={swapVenuesChains}
         onSelect={(c) => {
-          if (chainIdsToAffiliates) {
-            useStudioStore.setState({
-              chainIdsToAffiliates: {
-                ...chainIdsToAffiliates,
-                [c]: {
-                  affiliates: [
-                    ...(chainIdsToAffiliates[c]?.affiliates || []),
-                    {
-                      address: "",
-                      basisPointsFee: "",
-                    },
-                  ],
-                },
-              },
-            });
-          } else {
-            useStudioStore.setState({
-              chainIdsToAffiliates: {
-                [c]: {
-                  affiliates: [
-                    {
-                      address: "",
-                      basisPointsFee: "",
-                    },
-                  ],
-                },
-              },
-            });
-          }
+          useStudioStore.setState((prev) => {
+            const data = prev.chainIdsToAddresses
+              ? { ...prev.chainIdsToAddresses }
+              : {};
+            if (data[c]) {
+              return {};
+            }
+            data[c] = [""];
+            const bps = prev.basisPointsFee ? { ...prev.basisPointsFee } : {};
+            if (bps[c]) {
+              return {};
+            }
+            bps[c] = "";
+
+            return {
+              chainIdsToAddresses: data,
+              basisPointsFee: bps,
+            };
+          });
         }}
       />
-      <div className="h-96 overflow-y-auto contain-strict flex flex-col gap-4 ">
-        {Object.entries(chainIdsToAffiliates || {}).map(
-          ([chainId, affiliate]) => {
+      <div className="flex flex-col gap-4 ">
+        {Object.entries(chainIdsToAddresses || {}).map(
+          ([chainId, addresses]) => {
             const chain = chains?.find((chain) => chain.chainID === chainId);
             const placeholder = (() => {
               if (chain?.chainType === "cosmos") {
@@ -108,12 +96,12 @@ export const Affiliates = () => {
                     <button
                       onClick={() => {
                         useStudioStore.setState((prev) => {
-                          const data = prev.chainIdsToAffiliates
-                            ? { ...prev.chainIdsToAffiliates }
+                          const data = prev.chainIdsToAddresses
+                            ? { ...prev.chainIdsToAddresses }
                             : {};
                           delete data[chainId];
                           return {
-                            chainIdsToAffiliates: data,
+                            chainIdsToAddresses: data,
                           };
                         });
                       }}
@@ -164,7 +152,26 @@ export const Affiliates = () => {
                           e.preventDefault();
                           e.stopPropagation();
                         }}
-                        value={affiliate.affiliates[0].basisPointsFee}
+                        value={
+                          basisPointsFee && basisPointsFee[chainId]
+                            ? basisPointsFee[chainId]
+                            : ""
+                        }
+                        onChange={(e) => {
+                          useStudioStore.setState((prev) => {
+                            const data = prev.basisPointsFee
+                              ? { ...prev.basisPointsFee }
+                              : {};
+                            if (data[chainId]) {
+                              data[chainId] = e.target.value;
+                            } else {
+                              data[chainId] = e.target.value;
+                            }
+                            return {
+                              basisPointsFee: data,
+                            };
+                          });
+                        }}
                       />
                     </div>
                   </div>
@@ -174,30 +181,26 @@ export const Affiliates = () => {
                       <span className="text-[#A5A5A5] text-sm">Address</span>
                       <button
                         onClick={() => {
-                          if (chainIdsToAffiliates) {
-                            useStudioStore.setState({
-                              chainIdsToAffiliates: {
-                                ...chainIdsToAffiliates,
-                                [chainId]: {
-                                  ...affiliate,
-                                  affiliates: [
-                                    ...(affiliate.affiliates || []),
-                                    {
-                                      address: "",
-                                      basisPointsFee: "",
-                                    },
-                                  ],
-                                },
-                              },
-                            });
-                          }
+                          useStudioStore.setState((prev) => {
+                            const data = prev.chainIdsToAddresses
+                              ? { ...prev.chainIdsToAddresses }
+                              : {};
+                            if (data[chainId]) {
+                              data[chainId].push("");
+                            } else {
+                              data[chainId] = [""];
+                            }
+                            return {
+                              chainIdsToAddresses: data,
+                            };
+                          });
                         }}
                       >
                         <PlusIcon className="h-4 w-4" />
                       </button>
                     </div>
                     <div className="flex flex-col gap-2">
-                      {affiliate.affiliates.map((item, index) => (
+                      {addresses.map((item, index) => (
                         <div key={index} className="flex flex-row gap-2">
                           <div
                             className="flex w-full flex-row items-center gap-1 bg-[#1D1D1D] px-3 py-1.5 text-[13px]"
@@ -209,7 +212,7 @@ export const Affiliates = () => {
                               type="text"
                               placeholder={placeholder}
                               className="w-full bg-[#1D1D1D] focus-visible:border-none focus-visible:outline-none"
-                              value={item.address}
+                              value={item}
                               onChange={(e) => {
                                 handleAddressChange(
                                   chainId,
@@ -222,31 +225,26 @@ export const Affiliates = () => {
                           <button
                             onClick={() => {
                               if (
-                                chainIdsToAffiliates &&
-                                chainIdsToAffiliates[chainId]?.affiliates
-                                  ?.length > 1
+                                chainIdsToAddresses &&
+                                chainIdsToAddresses[chainId]?.length > 1
                               ) {
-                                useStudioStore.setState({
-                                  chainIdsToAffiliates: {
-                                    ...chainIdsToAffiliates,
-                                    [chainId]: {
-                                      ...affiliate,
-                                      affiliates: [
-                                        ...(affiliate.affiliates || []).filter(
-                                          (_, i) => i !== index
-                                        ),
-                                      ],
-                                    },
-                                  },
+                                useStudioStore.setState((prev) => {
+                                  const data = prev.chainIdsToAddresses
+                                    ? { ...prev.chainIdsToAddresses }
+                                    : {};
+                                  data[chainId].splice(index, 1);
+                                  return {
+                                    chainIdsToAddresses: data,
+                                  };
                                 });
                               } else {
                                 useStudioStore.setState((prev) => {
-                                  const data = prev.chainIdsToAffiliates
-                                    ? { ...prev.chainIdsToAffiliates }
+                                  const data = prev.chainIdsToAddresses
+                                    ? { ...prev.chainIdsToAddresses }
                                     : {};
                                   delete data[chainId];
                                   return {
-                                    chainIdsToAffiliates: data,
+                                    chainIdsToAddresses: data,
                                   };
                                 });
                               }
