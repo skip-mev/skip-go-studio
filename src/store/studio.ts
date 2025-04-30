@@ -1,5 +1,8 @@
 import { create } from "zustand";
 import { defaultTheme, Theme, WidgetProps } from "@skip-go/widget";
+import { skipClient } from "@/utils/skipClient";
+
+type Unpacked<T> = T extends (infer U)[] ? U : T;
 
 export const useStudioStore = create<{
   assetSelectorModalOpen: boolean;
@@ -7,16 +10,19 @@ export const useStudioStore = create<{
   borderRadius: number;
   theme: Theme;
   defaultRoute?: WidgetProps["defaultRoute"];
-  filter?: WidgetProps["filter"];
-  filterOut?: WidgetProps["filterOut"];
+  bridges?: Unpacked<Awaited<ReturnType<typeof skipClient.bridges>>>['id'][];
+  swapVenues?: { chainId: string, name: string }[];
+  chainIdsToAffiliates?: WidgetProps["chainIdsToAffiliates"];
+
 }>(() => ({
   assetSelectorModalOpen: false,
   backgroundColor: "#3D3D3D",
   borderRadius: 15,
   theme: defaultTheme,
   defaultRoute: undefined,
-  filter: undefined,
-  filterOut: undefined,
+  bridges: undefined,
+  swapVenues: undefined,
+  chainIdsToAffiliates: undefined,
 }));
 
 export const useSourceNetworkAndAssetsStore = create<{

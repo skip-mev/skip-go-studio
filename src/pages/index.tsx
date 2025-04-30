@@ -9,9 +9,13 @@ import { DefaultRoute } from "@/components/sections/DefaultRoute/DefaultRoute";
 import { Theming } from "@/components/sections/Theming/Theming";
 import { AssetSelection } from "@/components/sections/NetworkAndAssets/AssetSelection";
 import { useWidgetFilters } from "@/hooks/useWidgetFilters";
+import { Bridges } from "@/components/sections/Bridges/Bridges";
+import { SwapVenues } from "@/components/sections/SwapVenues/SwapVenues";
+import { Affiliates } from "@/components/sections/AffiliateFees/AffiliateFees";
 
 export default function Studio() {
-  const { backgroundColor, theme, defaultRoute } = useStudioStore();
+  const { backgroundColor, theme, defaultRoute, swapVenues, bridges } =
+    useStudioStore();
   const { chainId } = useAssetSelectorModalStore();
   const saveBackgroundColor = debounce((color: string) => {
     useStudioStore.setState({
@@ -30,7 +34,7 @@ export default function Studio() {
     >
       <div className="flex flex-col justify-between text-white flex-shrink-0">
         <div className="flex flex-col gap-2.5 p-6">
-          <Card>
+          <Card className="py-9 px-10">
             <h1 className="text-2xl">Get started with skip:go</h1>
             <p>
               Onboard users from anywhere to your app with Skip:Go. Choose a
@@ -40,6 +44,9 @@ export default function Studio() {
           <DefaultRoute />
           <NetworksAndAssets />
           <Theming />
+          <Bridges />
+          <SwapVenues />
+          <Affiliates />
         </div>
         {!!chainId && <AssetSelection />}
       </div>
@@ -54,7 +61,15 @@ export default function Studio() {
 
         <div className="flex flex-1 flex-col items-center justify-center">
           <div className="w-full max-w-md">
-            <Widget theme={theme} defaultRoute={defaultRoute} {...filters} />
+            <Widget
+              theme={theme}
+              defaultRoute={defaultRoute}
+              {...filters}
+              routeConfig={{
+                swapVenues,
+                bridges,
+              }}
+            />
           </div>
         </div>
 

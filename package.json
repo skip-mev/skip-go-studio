@@ -9,7 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.2",
     "@heroicons/react": "^2.2.0",
+    "@skip-go/client": "^0.16.34",
     "@skip-go/widget": "^3.8.6",
     "@tanstack/react-query": "^5.70.0",
     "@tanstack/react-virtual": "^3.13.6",

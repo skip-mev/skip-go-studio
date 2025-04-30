@@ -64,23 +64,19 @@ export const useWidgetFilters = () => {
   );
 
   const filter: WidgetProps["filter"] = {
-    source: {
-      ...getFilters(sourceSelectedChains, sourceSelectedAssets)?.filter,
-    },
-    destination: {
-      ...getFilters(destinationSelectedChains, destinationSelectedAssets)
-        ?.filter,
-    },
+    source: getFilters(sourceSelectedChains, sourceSelectedAssets)?.filter,
+    destination: getFilters(
+      destinationSelectedChains,
+      destinationSelectedAssets
+    )?.filter,
   };
 
   const filterOut: WidgetProps["filterOut"] = {
-    source: {
-      ...getFilters(sourceSelectedChains, sourceSelectedAssets)?.filterOut,
-    },
-    destination: {
-      ...getFilters(destinationSelectedChains, destinationSelectedAssets)
-        ?.filterOut,
-    },
+    source: getFilters(sourceSelectedChains, sourceSelectedAssets)?.filterOut,
+    destination: getFilters(
+      destinationSelectedChains,
+      destinationSelectedAssets
+    )?.filterOut,
   };
 
   return {
