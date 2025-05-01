@@ -13,10 +13,19 @@ import { Bridges } from "@/components/sections/Bridges/Bridges";
 import { SwapVenues } from "@/components/sections/SwapVenues/SwapVenues";
 import { Affiliates } from "@/components/sections/AffiliateFees/AffiliateFees";
 import { useChainIdsToAffiliates } from "@/hooks/useChainIdsToAffiliates";
+import { Settings } from "@/components/sections/Settings/Settings";
 
 export default function Studio() {
-  const { backgroundColor, theme, defaultRoute, swapVenues, bridges } =
-    useStudioStore();
+  const {
+    backgroundColor,
+    theme,
+    defaultRoute,
+    swapVenues,
+    bridges,
+    erc20UnlimitedApproval,
+    defaultMaxSlippage,
+    allowMultiTx,
+  } = useStudioStore();
   const { chainId } = useAssetSelectorModalStore();
   const saveBackgroundColor = debounce((color: string) => {
     useStudioStore.setState({
@@ -49,6 +58,7 @@ export default function Studio() {
           <Bridges />
           <SwapVenues />
           <Affiliates />
+          <Settings />
         </div>
         {!!chainId && <AssetSelection />}
       </div>
@@ -70,6 +80,14 @@ export default function Studio() {
               routeConfig={{
                 swapVenues,
                 bridges,
+                allowMultiTx,
+              }}
+              settings={{
+                slippage:
+                  Number(defaultMaxSlippage) <= 0
+                    ? 1
+                    : Number(defaultMaxSlippage),
+                useUnlimitedApproval: erc20UnlimitedApproval,
               }}
               chainIdsToAffiliates={chainIdsToAffiliates}
             />

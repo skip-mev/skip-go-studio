@@ -14,7 +14,9 @@ export const useStudioStore = create<{
   swapVenues?: { chainId: string, name: string }[];
   chainIdsToAddresses?: Record<string, string[]>;
   basisPointsFee?: Record<string, string>;
-
+  allowMultiTx?: boolean;
+  erc20UnlimitedApproval?: boolean;
+  defaultMaxSlippage?: number;
 }>(() => ({
   assetSelectorModalOpen: false,
   backgroundColor: "#3D3D3D",
@@ -24,7 +26,10 @@ export const useStudioStore = create<{
   bridges: undefined,
   swapVenues: undefined,
   chainIdsToAddresses: undefined,
-  basisPointsFee: undefined
+  basisPointsFee: undefined,
+  allowMultiTx: true,
+  erc20UnlimitedApproval: true,
+  defaultMaxSlippage: 1,
 }));
 
 export const useSourceNetworkAndAssetsStore = create<{
