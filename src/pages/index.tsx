@@ -14,6 +14,9 @@ import { SwapVenues } from "@/components/sections/SwapVenues/SwapVenues";
 import { Affiliates } from "@/components/sections/AffiliateFees/AffiliateFees";
 import { useChainIdsToAffiliates } from "@/hooks/useChainIdsToAffiliates";
 import { Settings } from "@/components/sections/Settings/Settings";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import { Code } from "@/components/sections/Code/Code";
 
 export default function Studio() {
   const {
@@ -35,6 +38,7 @@ export default function Studio() {
 
   const filters = useWidgetFilters();
   const chainIdsToAffiliates = useChainIdsToAffiliates();
+
   console.log(chainIdsToAffiliates);
   return (
     <div
@@ -71,7 +75,7 @@ export default function Studio() {
           <p>nav</p>
         </div>
 
-        <div className="flex flex-1 flex-col items-center justify-center">
+        <div className="flex flex-1 flex-col items-center justify-center relative overflow-hidden">
           <div className="w-full max-w-md">
             <Widget
               theme={theme}
@@ -92,6 +96,7 @@ export default function Studio() {
               chainIdsToAffiliates={chainIdsToAffiliates}
             />
           </div>
+         <Code/>
         </div>
 
         <div className="mt-4 flex justify-end">
