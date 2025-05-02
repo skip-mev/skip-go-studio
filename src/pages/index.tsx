@@ -37,80 +37,87 @@ export default function Studio() {
   const filters = useWidgetFilters();
   const chainIdsToAffiliates = useChainIdsToAffiliates();
 
-  console.log(chainIdsToAffiliates);
   return (
-    <div
-      className="bg-background text-foreground flex h-screen overflow-y-auto"
-      style={{
-        backgroundColor,
-      }}
-    >
-      <div className="flex flex-col justify-between text-white flex-shrink-0">
-        <div className="flex flex-col gap-2.5 p-6">
-          <Card className="py-9 px-10">
-            <h1 className="text-2xl">Get started with skip:go</h1>
-            <p>
-              Onboard users from anywhere to your app with Skip:Go. Choose a
-              starting template, or configure the widget to suit your needs.
-            </p>
-          </Card>
-          <DefaultRoute />
-          <NetworksAndAssets />
-          <Theming />
-          <Bridges />
-          <SwapVenues />
-          <Affiliates />
-          <Settings />
-        </div>
-        {!!chainId && <AssetSelection />}
-      </div>
-
-      {/* Right Content */}
+    <div className="relative">
       <div
-        className={`flex flex-1 flex-col p-6 sticky top-0 h-screen overflow-hidden`}
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `url('/checkerboard.png')`,
+          backgroundRepeat: "repeat",
+        }}
+      />
+      <div
+        className="relative flex h-screen overflow-y-auto"
+        style={{
+          backgroundColor: `${backgroundColor}E6`, // change to your desired color and alpha
+        }}
       >
-        <div className="mb-8 flex justify-between">
-          <p>nav</p>
-        </div>
-
-        <div className="flex flex-1 flex-col items-center justify-center relative overflow-hidden">
-          <div className="w-full max-w-md">
-            <Widget
-              theme={theme}
-              defaultRoute={defaultRoute}
-              {...filters}
-              routeConfig={{
-                swapVenues,
-                bridges,
-                allowMultiTx,
-              }}
-              settings={{
-                slippage:
-                  Number(defaultMaxSlippage) <= 0
-                    ? 1
-                    : Number(defaultMaxSlippage),
-                useUnlimitedApproval: erc20UnlimitedApproval,
-              }}
-              chainIdsToAffiliates={chainIdsToAffiliates}
-            />
+        <div className="flex flex-col justify-between text-white flex-shrink-0">
+          <div className="flex flex-col gap-2.5 p-6">
+            <Card className="py-9 px-10">
+              <h1 className="text-2xl">Get started with skip:go</h1>
+              <p>
+                Onboard users from anywhere to your app with Skip:Go. Choose a
+                starting template, or configure the widget to suit your needs.
+              </p>
+            </Card>
+            <DefaultRoute />
+            <NetworksAndAssets />
+            <Theming />
+            <Bridges />
+            <SwapVenues />
+            <Affiliates />
+            <Settings />
           </div>
-          <Code />
+          {!!chainId && <AssetSelection />}
         </div>
 
-        <div className="mt-4 flex justify-end">
-          <div className="flex items-center gap-2 text-sm text-zinc-400">
-            <span>Background</span>
+        {/* Right Content */}
+        <div
+          className={`flex flex-1 flex-col p-6 sticky top-0 h-screen overflow-hidden`}
+        >
+          <div className="mb-8 flex justify-between">
+            <p>nav</p>
+          </div>
 
-            <div className="h-6 w-6 cursor-pointer overflow-hidden rounded-full border border-zinc-600">
-              <input
-                type="color"
-                value={backgroundColor}
-                onChange={(e) => saveBackgroundColor(e.target.value)}
-                className="cursor-pointer border-none opacity-0 outline-none"
-                style={{
-                  backgroundColor: backgroundColor,
+          <div className="flex flex-1 flex-col items-center justify-center relative overflow-hidden">
+            <div className="w-full max-w-md">
+              <Widget
+                theme={theme}
+                defaultRoute={defaultRoute}
+                {...filters}
+                routeConfig={{
+                  swapVenues,
+                  bridges,
+                  allowMultiTx,
                 }}
+                settings={{
+                  slippage:
+                    Number(defaultMaxSlippage) <= 0
+                      ? 1
+                      : Number(defaultMaxSlippage),
+                  useUnlimitedApproval: erc20UnlimitedApproval,
+                }}
+                chainIdsToAffiliates={chainIdsToAffiliates}
               />
+            </div>
+            <Code />
+          </div>
+
+          <div className="mt-4 flex justify-end mr-6">
+            <div className="flex items-center gap-2 text-sm text-zinc-400">
+              <span>Background</span>
+              <div className="h-6 w-6 cursor-pointer overflow-hidden rounded-full border border-zinc-600">
+                <input
+                  type="color"
+                  value={backgroundColor}
+                  onChange={(e) => saveBackgroundColor(e.target.value)}
+                  className="cursor-pointer border-none opacity-0 outline-none"
+                  style={{
+                    backgroundColor: backgroundColor,
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -19,7 +19,7 @@ export const useStudioStore = create<{
   defaultMaxSlippage?: number;
 }>(() => ({
   assetSelectorModalOpen: false,
-  backgroundColor: "#3D3D3D",
+  backgroundColor: "#000000",
   borderRadius: 15,
   theme: defaultTheme,
   defaultRoute: undefined,
