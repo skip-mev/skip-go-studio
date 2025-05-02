@@ -104,7 +104,7 @@ export const AssetSelection = () => {
 
   return (
     <Card
-      className="absolute ml-[528px] mt-6 h-[calc(100vh-48px)] z-10"
+      className="absolute ml-[528px] mt-6 h-[calc(100vh-48px)] z-10 py-9 px-10 gap-2.5"
       ref={containerRef}
     >
       <button

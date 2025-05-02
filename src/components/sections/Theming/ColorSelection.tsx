@@ -5,7 +5,7 @@ export const ColorSelection = () => {
   const { theme } = useStudioStore();
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 relative">
       <ColorSelectionButton
         title="Brand"
         value={theme.brandColor}

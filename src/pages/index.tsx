@@ -14,8 +14,6 @@ import { SwapVenues } from "@/components/sections/SwapVenues/SwapVenues";
 import { Affiliates } from "@/components/sections/AffiliateFees/AffiliateFees";
 import { useChainIdsToAffiliates } from "@/hooks/useChainIdsToAffiliates";
 import { Settings } from "@/components/sections/Settings/Settings";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { dark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Code } from "@/components/sections/Code/Code";
 
 export default function Studio() {
@@ -96,7 +94,7 @@ export default function Studio() {
               chainIdsToAffiliates={chainIdsToAffiliates}
             />
           </div>
-         <Code/>
+          <Code />
         </div>
 
         <div className="mt-4 flex justify-end">

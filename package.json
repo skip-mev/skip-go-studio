@@ -11,6 +11,7 @@
   "dependencies": {
     "@headlessui/react": "^2.2.2",
     "@heroicons/react": "^2.2.0",
+    "@prettier/sync": "^0.5.5",
     "@skip-go/client": "^0.16.34",
     "@skip-go/widget": "^3.8.6",
     "@tanstack/react-query": "^5.70.0",
@@ -18,6 +19,7 @@
     "match-sorter": "^8.0.0",
     "motion": "^12.7.2",
     "next": "15.2.4",
+    "prettier": "^3.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-syntax-highlighter": "^15.6.1",
