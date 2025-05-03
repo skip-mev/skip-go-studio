@@ -25,6 +25,7 @@ export default function Studio() {
     erc20UnlimitedApproval,
     defaultMaxSlippage,
     allowMultiTx,
+    borderRadius,
   } = useStudioStore();
   const { chainId } = useAssetSelectorModalStore();
   const saveBackgroundColor = debounce((color: string) => {
@@ -53,7 +54,7 @@ export default function Studio() {
       >
         <div className="flex flex-col justify-between text-white flex-shrink-0">
           <div className="flex flex-col gap-2.5 p-6">
-            <Card className="py-9 px-10">
+            <Card className="py-9 px-10 gap-4">
               <h1 className="text-2xl">Get started with skip:go</h1>
               <p>
                 Onboard users from anywhere to your app with Skip:Go. Choose a
@@ -74,8 +75,19 @@ export default function Studio() {
         <div
           className={`flex flex-1 flex-col p-6 sticky top-0 h-screen overflow-hidden`}
         >
-          <div className="mb-8 flex justify-between">
-            <p>nav</p>
+          <div className="mb-8 flex justify-end">
+            <div>
+              <a
+                href="https://www.npmjs.com/package/@skip-go/widget"
+                target="_blank"
+                className="inline-flex w-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
+                style={{
+                  borderRadius: borderRadius / 1.5,
+                }}
+              >
+                Install Skip Go Widget
+              </a>
+            </div>
           </div>
 
           <div className="flex flex-1 flex-col items-center justify-center relative overflow-hidden">
