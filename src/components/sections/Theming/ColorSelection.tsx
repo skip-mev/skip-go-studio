@@ -1,11 +1,76 @@
 import { useStudioStore } from "@/store/studio";
 import { ColorSelectionButton } from "./ColorSelectionButton";
+import { FilterButton } from "@/components/SmallPillButton";
+import { defaultTheme, lightTheme } from "@skip-go/widget";
 
 export const ColorSelection = () => {
   const { theme } = useStudioStore();
-
+  console.log("theme", theme);
   return (
     <div className="flex flex-col gap-4 relative">
+      <div className="flex flex-row gap-2">
+        <FilterButton
+          onClick={() => {
+            useStudioStore.setState({
+              theme: defaultTheme,
+              backgroundColor: "#000000",
+            });
+          }}
+        >
+          Load dark theme
+        </FilterButton>
+        <FilterButton
+          onClick={() => {
+            useStudioStore.setState({
+              theme: lightTheme,
+              backgroundColor: "#c7c7c7",
+            });
+          }}
+        >
+          Load light theme
+        </FilterButton>
+        <FilterButton
+          onClick={() => {
+            useStudioStore.setState({
+              theme: {
+                brandColor: "#88c070",
+                primary: {
+                  background: {
+                    normal: "#f2efe4",
+                  },
+                  text: {
+                    normal: "#2c2c2c",
+                    lowContrast: "#2c2c2c99",
+                    ultraLowContrast: "#2c2c2c55",
+                  },
+                  ghostButtonHover: "#88c07044",
+                },
+                secondary: {
+                  background: {
+                    normal: "#d8ccb4",
+                    transparent: "#d8ccb4cc",
+                    hover: "#b8a88e",
+                  },
+                },
+                success: {
+                  text: "#6cae4e",
+                },
+                warning: {
+                  background: "#f6e7b0",
+                  text: "#c2842d",
+                },
+                error: {
+                  background: "#e8b0a4",
+                  text: "#a23c3c",
+                },
+              },
+              backgroundColor: "#d7d5d1",
+            });
+          }}
+        >
+          Load ghibli theme
+        </FilterButton>
+      </div>
       <ColorSelectionButton
         title="Brand"
         value={theme.brandColor}
@@ -177,7 +242,6 @@ export const ColorSelection = () => {
           }}
         />
       </div>
-
       <span className="text-xl">Error</span>
       <div className="flex flex-col gap-4 pl-4">
         <ColorSelectionButton
@@ -211,7 +275,6 @@ export const ColorSelection = () => {
           }}
         />
       </div>
-
       <span className="text-xl">Warning</span>
       <div className="flex flex-col gap-4 pl-4">
         <ColorSelectionButton
@@ -245,7 +308,6 @@ export const ColorSelection = () => {
           }}
         />
       </div>
-
       <ColorSelectionButton
         title="Success text"
         value={theme.success.text}

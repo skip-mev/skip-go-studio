@@ -34,8 +34,9 @@ export const ColorSelectionButton = ({
               <span className="uppercase font-mono">{value}</span>
               <ColorIcon color={value} />
             </PopoverButton>
-            <PopoverPanel anchor="top" className="flex flex-col">
+            <PopoverPanel anchor="top" className="flex flex-col" portal>
               <Sketch
+                className="bg-black"
                 style={{ marginLeft: 20 }}
                 color={value}
                 onChange={(color) => {
