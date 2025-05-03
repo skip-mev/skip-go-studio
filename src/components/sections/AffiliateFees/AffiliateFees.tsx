@@ -74,194 +74,196 @@ export const Affiliates = () => {
           });
         }}
       />
-      <div className="flex flex-col gap-4 ">
-        {Object.entries(chainIdsToAddresses || {}).map(
-          ([chainId, addresses]) => {
-            const chain = chains?.find((chain) => chain.chainID === chainId);
-            const placeholder = (() => {
-              if (chain?.chainType === "cosmos") {
-                return `${chain?.bech32Prefix}...`;
-              }
-              if (chain?.chainType === "evm") {
-                return "0x...";
-              }
-              return "Input address";
-            })();
+      {chainIdsToAddresses && (
+        <div className="flex flex-col gap-4">
+          {Object.entries(chainIdsToAddresses || {}).map(
+            ([chainId, addresses]) => {
+              const chain = chains?.find((chain) => chain.chainID === chainId);
+              const placeholder = (() => {
+                if (chain?.chainType === "cosmos") {
+                  return `${chain?.bech32Prefix}...`;
+                }
+                if (chain?.chainType === "evm") {
+                  return "0x...";
+                }
+                return "Input address";
+              })();
 
-            return (
-              <div key={chain?.chainID} className="flex flex-col gap-3">
-                <div className="flex flex-col gap-2 ">
-                  <div className="flex flex-row gap-2 w-full items-center justify-between">
-                    <span className="text-lg">{chain?.prettyName}</span>
-                    <button
-                      onClick={() => {
-                        useStudioStore.setState((prev) => {
-                          const data = prev.chainIdsToAddresses
-                            ? { ...prev.chainIdsToAddresses }
-                            : {};
-                          delete data[chainId];
-                          return {
-                            chainIdsToAddresses: data,
-                          };
-                        });
-                      }}
-                    >
-                      <XMarkIcon className="h-4 w-4" />
-                    </button>
-                  </div>
-                  <div className="flex flex-row gap-2 flex-wrap">
-                    {swapVenues
-                      ?.filter((s) => s.chainID === chainId)
-                      .map((i) => (
-                        <span
-                          className="text-[#A5A5A5] font-abcdiatype-mono text-sm"
-                          style={{
-                            borderRadius: "1000px",
-                          }}
-                          key={i.name}
-                        >
-                          {i.name}
-                        </span>
-                      ))}
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <div className="flex flex-col gap-1">
-                    <div className="flex flex-row justify-between items-center">
-                      <span className="text-[#A5A5A5] text-sm">
-                        Basis point fee
-                      </span>
-                      <a
-                        href="https://docs.skip.build/go/widget/configuration#chainidstoaffiliates"
-                        target="_blank"
-                      >
-                        <InformationCircleIcon className="h-4 w-4" />
-                      </a>
-                    </div>
-                    <div
-                      className="flex w-full flex-row items-center gap-1 bg-[#1D1D1D] px-3 py-1.5 text-[13px]"
-                      style={{
-                        borderRadius: borderRadius / 1.5,
-                      }}
-                    >
-                      <input
-                        type="number"
-                        placeholder={"75"}
-                        className="w-full bg-[#1D1D1D] focus-visible:border-none focus-visible:outline-none font-abcdiatype-mono"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                        }}
-                        value={
-                          basisPointsFee && basisPointsFee[chainId]
-                            ? basisPointsFee[chainId]
-                            : ""
-                        }
-                        onChange={(e) => {
-                          useStudioStore.setState((prev) => {
-                            const data = prev.basisPointsFee
-                              ? { ...prev.basisPointsFee }
-                              : {};
-                            if (data[chainId]) {
-                              data[chainId] = e.target.value;
-                            } else {
-                              data[chainId] = e.target.value;
-                            }
-                            return {
-                              basisPointsFee: data,
-                            };
-                          });
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col gap-1">
-                    <div className="flex flex-row justify-between items-center">
-                      <span className="text-[#A5A5A5] text-sm">Address</span>
+              return (
+                <div key={chain?.chainID} className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-2 ">
+                    <div className="flex flex-row gap-2 w-full items-center justify-between">
+                      <span className="text-lg">{chain?.prettyName}</span>
                       <button
                         onClick={() => {
                           useStudioStore.setState((prev) => {
                             const data = prev.chainIdsToAddresses
                               ? { ...prev.chainIdsToAddresses }
                               : {};
-                            if (data[chainId]) {
-                              data[chainId].push("");
-                            } else {
-                              data[chainId] = [""];
-                            }
+                            delete data[chainId];
                             return {
                               chainIdsToAddresses: data,
                             };
                           });
                         }}
                       >
-                        <PlusIcon className="h-4 w-4" />
+                        <XMarkIcon className="h-4 w-4" />
                       </button>
                     </div>
-                    <div className="flex flex-col gap-2">
-                      {addresses.map((item, index) => (
-                        <div key={index} className="flex flex-row gap-2">
-                          <div
-                            className="flex w-full flex-row items-center gap-1 bg-[#1D1D1D] px-3 py-1.5 text-[13px]"
+                    <div className="flex flex-row gap-2 flex-wrap">
+                      {swapVenues
+                        ?.filter((s) => s.chainID === chainId)
+                        .map((i) => (
+                          <span
+                            className="text-[#A5A5A5] font-abcdiatype-mono text-sm"
                             style={{
-                              borderRadius: borderRadius / 1.5,
+                              borderRadius: "1000px",
                             }}
+                            key={i.name}
                           >
-                            <input
-                              type="text"
-                              placeholder={placeholder}
-                              className="w-full bg-[#1D1D1D] focus-visible:border-none focus-visible:outline-none"
-                              value={item}
-                              onChange={(e) => {
-                                handleAddressChange(
-                                  chainId,
-                                  e.target.value,
-                                  index
-                                );
-                              }}
-                            />
-                          </div>
-                          <button
-                            onClick={() => {
-                              if (
-                                chainIdsToAddresses &&
-                                chainIdsToAddresses[chainId]?.length > 1
-                              ) {
-                                useStudioStore.setState((prev) => {
-                                  const data = prev.chainIdsToAddresses
-                                    ? { ...prev.chainIdsToAddresses }
-                                    : {};
-                                  data[chainId].splice(index, 1);
-                                  return {
-                                    chainIdsToAddresses: data,
-                                  };
-                                });
+                            {i.name}
+                          </span>
+                        ))}
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-1">
+                      <div className="flex flex-row justify-between items-center">
+                        <span className="text-[#A5A5A5] text-sm">
+                          Basis point fee
+                        </span>
+                        <a
+                          href="https://docs.skip.build/go/widget/configuration#chainidstoaffiliates"
+                          target="_blank"
+                        >
+                          <InformationCircleIcon className="h-4 w-4" />
+                        </a>
+                      </div>
+                      <div
+                        className="flex w-full flex-row items-center gap-1 bg-[#1D1D1D] px-3 py-1.5 text-[13px]"
+                        style={{
+                          borderRadius: borderRadius / 1.5,
+                        }}
+                      >
+                        <input
+                          type="number"
+                          placeholder={"75"}
+                          className="w-full bg-[#1D1D1D] focus-visible:border-none focus-visible:outline-none font-abcdiatype-mono"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }}
+                          value={
+                            basisPointsFee && basisPointsFee[chainId]
+                              ? basisPointsFee[chainId]
+                              : ""
+                          }
+                          onChange={(e) => {
+                            useStudioStore.setState((prev) => {
+                              const data = prev.basisPointsFee
+                                ? { ...prev.basisPointsFee }
+                                : {};
+                              if (data[chainId]) {
+                                data[chainId] = e.target.value;
                               } else {
-                                useStudioStore.setState((prev) => {
-                                  const data = prev.chainIdsToAddresses
-                                    ? { ...prev.chainIdsToAddresses }
-                                    : {};
-                                  delete data[chainId];
-                                  return {
-                                    chainIdsToAddresses: data,
-                                  };
-                                });
+                                data[chainId] = e.target.value;
                               }
-                            }}
-                          >
-                            <XMarkIcon className="h-4 w-4" />
-                          </button>
-                        </div>
-                      ))}
+                              return {
+                                basisPointsFee: data,
+                              };
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                      <div className="flex flex-row justify-between items-center">
+                        <span className="text-[#A5A5A5] text-sm">Address</span>
+                        <button
+                          onClick={() => {
+                            useStudioStore.setState((prev) => {
+                              const data = prev.chainIdsToAddresses
+                                ? { ...prev.chainIdsToAddresses }
+                                : {};
+                              if (data[chainId]) {
+                                data[chainId].push("");
+                              } else {
+                                data[chainId] = [""];
+                              }
+                              return {
+                                chainIdsToAddresses: data,
+                              };
+                            });
+                          }}
+                        >
+                          <PlusIcon className="h-4 w-4" />
+                        </button>
+                      </div>
+                      <div className="flex flex-col gap-2">
+                        {addresses.map((item, index) => (
+                          <div key={index} className="flex flex-row gap-2">
+                            <div
+                              className="flex w-full flex-row items-center gap-1 bg-[#1D1D1D] px-3 py-1.5 text-[13px]"
+                              style={{
+                                borderRadius: borderRadius / 1.5,
+                              }}
+                            >
+                              <input
+                                type="text"
+                                placeholder={placeholder}
+                                className="w-full bg-[#1D1D1D] focus-visible:border-none focus-visible:outline-none"
+                                value={item}
+                                onChange={(e) => {
+                                  handleAddressChange(
+                                    chainId,
+                                    e.target.value,
+                                    index
+                                  );
+                                }}
+                              />
+                            </div>
+                            <button
+                              onClick={() => {
+                                if (
+                                  chainIdsToAddresses &&
+                                  chainIdsToAddresses[chainId]?.length > 1
+                                ) {
+                                  useStudioStore.setState((prev) => {
+                                    const data = prev.chainIdsToAddresses
+                                      ? { ...prev.chainIdsToAddresses }
+                                      : {};
+                                    data[chainId].splice(index, 1);
+                                    return {
+                                      chainIdsToAddresses: data,
+                                    };
+                                  });
+                                } else {
+                                  useStudioStore.setState((prev) => {
+                                    const data = prev.chainIdsToAddresses
+                                      ? { ...prev.chainIdsToAddresses }
+                                      : {};
+                                    delete data[chainId];
+                                    return {
+                                      chainIdsToAddresses: data,
+                                    };
+                                  });
+                                }
+                              }}
+                            >
+                              <XMarkIcon className="h-4 w-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          }
-        )}
-      </div>
+              );
+            }
+          )}
+        </div>
+      )}
     </AccordionCard>
   );
 };

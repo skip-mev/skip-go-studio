@@ -1,7 +1,6 @@
 "use client";
 import { Widget } from "@skip-go/widget";
 import { debounce } from "lodash";
-
 import { useAssetSelectorModalStore, useStudioStore } from "@/store/studio";
 import { Card } from "@/components/Card";
 import { NetworksAndAssets } from "@/components/sections/NetworkAndAssets/NetworksAndAssets";
@@ -69,9 +68,8 @@ export default function Studio() {
             <Affiliates />
             <Settings />
           </div>
-          {!!chainId && <AssetSelection />}
         </div>
-
+        {!!chainId && <AssetSelection />}
         {/* Right Content */}
         <div
           className={`flex flex-1 flex-col p-6 sticky top-0 h-screen overflow-hidden`}

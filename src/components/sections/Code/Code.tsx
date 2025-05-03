@@ -13,6 +13,14 @@ import { ChevronDownIcon } from "@/components/icons/ChevronDown";
 import { cn } from "@/utils/ui";
 import { CheckIcon, ClipboardDocumentIcon } from "@heroicons/react/20/solid";
 
+function stringifyWithUndefined(obj: Record<string, string[] | undefined>) {
+  const entries = Object.entries(obj).map(([key, value]) => {
+    const val = value === undefined ? "undefined" : JSON.stringify(value);
+    return `"${key}": ${val}`;
+  });
+  return `{\n  ${entries.join(",\n  ")}\n}`;
+}
+
 export const Code = () => {
   const [isOpen, setIsOpen] = useState(false);
   const {
@@ -30,7 +38,6 @@ export const Code = () => {
 
   const filters = useWidgetFilters();
   const chainIdsToAffiliates = useChainIdsToAffiliates();
-  console.log();
   const code = useQuery({
     queryKey: [
       allowMultiTx,
@@ -39,8 +46,7 @@ export const Code = () => {
       defaultMaxSlippage,
       defaultRoute,
       erc20UnlimitedApproval,
-      filters.filter,
-      filters.filterOut,
+      filters,
       swapVenues,
       theme,
     ],
@@ -49,26 +55,40 @@ export const Code = () => {
       try {
         return await prettier.format(
           `<Widget
-    theme={${JSON.stringify(theme, null, 4)}}
-  defaultRoute={${JSON.stringify(defaultRoute, null, 4)}}
-  filter={${JSON.stringify(filters.filter, null, 4)}}
-filterOut={${JSON.stringify(filters.filterOut, null, 4)}}
-  routeConfig={${JSON.stringify(
-    {
-      swapVenues,
-      bridges,
-      allowMultiTx,
-    },
-    null,
-    4
-  )}}
-  settings={{
-    "slippage": ${
-      Number(defaultMaxSlippage) <= 0 ? 1 : Number(defaultMaxSlippage)
-    }n,
-    useUnlimitedApproval: ${erc20UnlimitedApproval}
-  }}
-
+              theme={${JSON.stringify(theme, null, 4)}}
+              defaultRoute={${JSON.stringify(defaultRoute, null, 4)}}
+              filter={{
+                source: ${stringifyWithUndefined(filters.filter.source || {})},
+                destination:  ${stringifyWithUndefined(
+                  filters.filter.destination || {}
+                )},
+              }}
+              filterOut={{
+                source: ${stringifyWithUndefined(
+                  filters.filterOut.source || {}
+                )},
+                destination:  ${stringifyWithUndefined(
+                  filters.filterOut.destination || {}
+                )},
+              }}
+              routeConfig={${JSON.stringify(
+                {
+                  swapVenues,
+                  bridges,
+                  allowMultiTx,
+                },
+                null,
+                4
+              )}}
+              settings={{
+                "slippage": ${
+                  Number(defaultMaxSlippage) <= 0
+                    ? 1
+                    : Number(defaultMaxSlippage)
+                }n,
+                useUnlimitedApproval: ${erc20UnlimitedApproval}
+              }}
+              chainIdsToAffiliates={${JSON.stringify(chainIdsToAffiliates)}}
   />`,
           {
             parser: "babel",
@@ -125,6 +145,7 @@ filterOut={${JSON.stringify(filters.filterOut, null, 4)}}
           </button>
         </div>
       </div>
+
       <SyntaxHighlighter
         language="jsx"
         wrapLines
@@ -283,6 +304,7 @@ filterOut={${JSON.stringify(filters.filterOut, null, 4)}}
           overflow: "auto",
           paddingLeft: 4,
           borderTopRightRadius: 0,
+          letterSpacing: 0.2,
         }}
         c
       >
