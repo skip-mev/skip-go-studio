@@ -5,14 +5,12 @@
   --foreground: #ededed;
 }
 
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #3D3D3D;
     --foreground: #ededed;
   }
 }
-
 
 @theme {
   --font-abcdiatype: "ABCDiatype", sans-serif;
