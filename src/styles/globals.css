@@ -1,8 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #3D3D3D;
+  --foreground: #ededed;
+}
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #3D3D3D;
+    --foreground: #ededed;
+  }
 }
 
 
@@ -88,12 +96,6 @@
 }
 
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #3D3D3D;
-    --foreground: #ededed;
-  }
-}
 
 body {
   background: var(--background);
