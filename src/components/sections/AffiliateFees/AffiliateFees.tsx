@@ -295,16 +295,18 @@ const ChainSelection = ({
         className="absolute right-0 z-10 mt-2 ml-4 w-56 origin-top-right rounded-md bg-black shadow-lg ring-1 ring-black/5 transition focus:outline-hidden data-closed:scale-95 data-closed:transform data-closed:opacity-0 data-enter:duration-100 data-enter:ease-out data-leave:duration-75 data-leave:ease-in"
       >
         <div className="py-1">
-          {chains?.map((chain) => (
-            <MenuItem key={chain.chainID}>
-              <button
-                onClick={() => onSelect(chain.chainID)}
-                className="block w-full px-4 py-2 text-left text-sm data-focus:bg-gray-10 data-focus:font-semibold"
-              >
-                {chain.prettyName}
-              </button>
-            </MenuItem>
-          ))}
+          {chains
+            ?.filter((i) => i.chainType === "cosmos")
+            .map((chain) => (
+              <MenuItem key={chain.chainID}>
+                <button
+                  onClick={() => onSelect(chain.chainID)}
+                  className="block w-full px-4 py-2 text-left text-sm data-focus:bg-gray-10 data-focus:font-semibold"
+                >
+                  {chain.prettyName}
+                </button>
+              </MenuItem>
+            ))}
         </div>
       </MenuItems>
     </Menu>
