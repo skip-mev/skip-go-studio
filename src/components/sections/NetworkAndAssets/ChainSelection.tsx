@@ -29,8 +29,9 @@ export const ChainSelection = ({
 
   const { data: chains, isLoading: isChainsLoading } = useChainsQuery({
     select: (data) => {
+      if (!data) return [];
       return matchSorter(data, searchInput, {
-        keys: ["chainName", "chainID"],
+        keys: ["chainName", "chainId"],
         threshold: matchSorter.rankings.CONTAINS,
       });
     },
@@ -100,10 +101,10 @@ export const ChainSelection = ({
       destinationSelectedChains === undefined
     ) {
       useSourceNetworkAndAssetsStore.setState({
-        sourceSelectedChains: chains.map((chain) => chain.chainID),
+        sourceSelectedChains: chains.map((chain) => chain.chainId),
       });
       useDestinationNetworkAndAssetsStore.setState({
-        destinationSelectedChains: chains.map((chain) => chain.chainID),
+        destinationSelectedChains: chains.map((chain) => chain.chainId),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -136,7 +137,7 @@ export const ChainSelection = ({
         <div className="flex flex-row gap-2">
           <FilterButton
             onClick={() => {
-              setSelectedChains(chains.map((chain) => chain.chainID));
+              setSelectedChains(chains.map((chain) => chain.chainId));
               clearAssets();
             }}
           >
@@ -155,7 +156,7 @@ export const ChainSelection = ({
               setSelectedChains(
                 chains
                   .filter((chain) => chain.chainType === "evm")
-                  .map((chain) => chain.chainID)
+                  .map((chain) => chain.chainId)
               );
               clearAssets();
             }}
@@ -167,7 +168,7 @@ export const ChainSelection = ({
               setSelectedChains(
                 chains
                   .filter((chain) => chain.chainType === "cosmos")
-                  .map((chain) => chain.chainID)
+                  .map((chain) => chain.chainId)
               );
               clearAssets();
             }}
@@ -179,7 +180,7 @@ export const ChainSelection = ({
               setSelectedChains(
                 chains
                   .filter((chain) => chain.chainType === "svm")
-                  .map((chain) => chain.chainID)
+                  .map((chain) => chain.chainId)
               );
               clearAssets();
             }}
@@ -199,20 +200,20 @@ export const ChainSelection = ({
           {chains.length ? (
             chains.map((chain) => (
               <ChainCheckbox
-                key={chain.chainID}
+                key={chain.chainId}
                 name={chain.chainName}
-                id={chain.chainID}
-                checked={!!selectedChains?.includes(chain.chainID)}
+                id={chain.chainId}
+                checked={!!selectedChains?.includes(chain.chainId)}
                 setChecked={() => {
-                  if (selectedChains?.includes(chain.chainID)) {
+                  if (selectedChains?.includes(chain.chainId)) {
                     setSelectedChains(
-                      selectedChains.filter((id) => id !== chain.chainID)
+                      selectedChains.filter((id) => id !== chain.chainId)
                     );
-                    clearChainAssets(chain.chainID);
+                    clearChainAssets(chain.chainId);
                   } else {
                     setSelectedChains([
                       ...(selectedChains || []),
-                      chain.chainID,
+                      chain.chainId,
                     ]);
                   }
                 }}

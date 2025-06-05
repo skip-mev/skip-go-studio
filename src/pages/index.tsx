@@ -23,6 +23,7 @@ import { Settings } from "@/components/sections/Settings/Settings";
 import { Code } from "@/components/sections/Code/Code";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { MobileNotSupportedPage } from "@/components/pages/MobileNotSupported";
+import { BridgeType } from "@skip-go/client";
 
 export default function Studio() {
   const {
@@ -145,7 +146,7 @@ export default function Studio() {
                   {...filters}
                   routeConfig={{
                     swapVenues,
-                    bridges,
+                    bridges: bridges?.filter(Boolean) as BridgeType[],
                     allowMultiTx,
                   }}
                   settings={{

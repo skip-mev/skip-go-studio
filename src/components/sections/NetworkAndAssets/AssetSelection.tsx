@@ -51,7 +51,7 @@ export const AssetSelection = () => {
     [context, chainId]
   );
 
-  const chain = chains?.find((chain) => chain.chainID === chainId);
+  const chain = chains?.find((chain) => chain.chainId === chainId);
   const chainAssets = useMemo(() => {
     if (!assets || !chainId) return [];
     return assets[chainId]
@@ -124,7 +124,7 @@ export const AssetSelection = () => {
               borderRadius: "1000px",
             }}
           >
-            {chain?.chainID}
+            {chain?.chainId}
           </SmallPillButton>
         </div>
       </button>

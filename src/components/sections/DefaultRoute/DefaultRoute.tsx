@@ -11,18 +11,18 @@ export const DefaultRoute = () => {
   const { data: assets } = useAssetsQuery();
 
   const srcChain = chains?.find(
-    (chain) => chain.chainID === defaultRoute?.srcChainId
+    (chain) => chain.chainId === defaultRoute?.srcChainId
   );
   const destChain = chains?.find(
-    (chain) => chain.chainID === defaultRoute?.destChainId
+    (chain) => chain.chainId === defaultRoute?.destChainId
   );
-  const srcAsset = srcChain?.chainID
-    ? assets?.[srcChain?.chainID].find(
+  const srcAsset = srcChain?.chainId
+    ? assets?.[srcChain?.chainId].find(
         (asset) => asset.denom === defaultRoute?.srcAssetDenom
       )
     : undefined;
-  const destAsset = destChain?.chainID
-    ? assets?.[destChain?.chainID].find(
+  const destAsset = destChain?.chainId
+    ? assets?.[destChain?.chainId].find(
         (asset) => asset.denom === defaultRoute?.destAssetDenom
       )
     : undefined;
@@ -40,7 +40,7 @@ export const DefaultRoute = () => {
                 useStudioStore.setState((v) => ({
                   defaultRoute: {
                     ...v.defaultRoute,
-                    srcChainId: selected?.chainID,
+                    srcChainId: selected?.chainId,
                     srcAssetDenom: selected?.denom,
                   },
                 }));
@@ -68,7 +68,7 @@ export const DefaultRoute = () => {
                 useStudioStore.setState((v) => ({
                   defaultRoute: {
                     ...v.defaultRoute,
-                    destChainId: selected?.chainID,
+                    destChainId: selected?.chainId,
                     destAssetDenom: selected?.denom,
                   },
                 }));

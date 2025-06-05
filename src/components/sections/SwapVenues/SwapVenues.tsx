@@ -23,7 +23,9 @@ export const SwapVenues = () => {
         <div className="h-96 overflow-y-auto contain-strict flex flex-col gap-0">
           {swapVenues
             ?.sort((a, b) =>
-              a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+              (a.name?.toLowerCase() || "").localeCompare(
+                b.name?.toLowerCase() || ""
+              )
             )
             .map((swapVenue) => (
               <button
@@ -44,15 +46,15 @@ export const SwapVenues = () => {
                     useStudioStore.setState({
                       swapVenues: store.swapVenues
                         .map((i) => i.name)
-                        .includes(swapVenue.name)
+                        .includes(swapVenue.name || "")
                         ? store.swapVenues.filter(
                             (s) => s.name !== swapVenue.name
                           )
                         : [
                             ...store.swapVenues,
                             {
-                              chainId: swapVenue.chainID,
-                              name: swapVenue.name,
+                              chainId: swapVenue.chainId || "",
+                              name: swapVenue.name || "",
                             },
                           ],
                     });
@@ -60,7 +62,10 @@ export const SwapVenues = () => {
                     useStudioStore.setState({
                       swapVenues: swapVenues
                         .filter((s) => s.name !== swapVenue.name)
-                        .map((s) => ({ chainId: s.chainID, name: s.name })),
+                        .map((s) => ({
+                          chainId: s.chainId || "",
+                          name: s.name || "",
+                        })),
                     });
                   }
                 }}
@@ -70,7 +75,7 @@ export const SwapVenues = () => {
                     store.swapVenues
                       ? store.swapVenues
                           .map((i) => i.name)
-                          .includes(swapVenue.name)
+                          .includes(swapVenue.name || "")
                       : true
                   }
                 />
@@ -81,7 +86,7 @@ export const SwapVenues = () => {
                     borderRadius: "1000px",
                   }}
                 >
-                  {swapVenue.chainID}
+                  {swapVenue.chainId}
                 </SmallPillButton>
               </button>
             ))}

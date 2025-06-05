@@ -1,20 +1,19 @@
 import { create } from "zustand";
 import { defaultTheme, Theme, WidgetProps } from "@skip-go/widget";
-import { skipClient } from "@/utils/skipClient";
 import {
   persist,
   subscribeWithSelector,
   type PersistOptions,
 } from "zustand/middleware";
+import { BridgeType } from "@skip-go/client";
 
-type Unpacked<T> = T extends (infer U)[] ? U : T;
 interface StudioStore {
   assetSelectorModalOpen: boolean;
   backgroundColor: string;
   borderRadius: number;
   theme: Theme;
   defaultRoute?: WidgetProps["defaultRoute"];
-  bridges?: Unpacked<Awaited<ReturnType<typeof skipClient.bridges>>>["id"][];
+  bridges?: (BridgeType | undefined)[];
   swapVenues?: { chainId: string; name: string }[];
   chainIdsToAddresses?: Record<string, string[]>;
   basisPointsFee?: Record<string, string>;
