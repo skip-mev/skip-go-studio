@@ -22,7 +22,9 @@ export const Bridges = () => {
         <div className="h-96 overflow-y-auto flex flex-col gap-2">
           {bridges
             ?.sort((a, b) =>
-              a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+              (a.name?.toLowerCase() || "").localeCompare(
+                b.name?.toLowerCase() || ""
+              )
             )
             .map((bridge) => (
               <button

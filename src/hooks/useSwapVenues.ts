@@ -1,11 +1,12 @@
-import { skipClient } from "@/utils/skipClient";
+
+import { venues } from "@skip-go/client";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
-export const useSwapVenuesQuery = (props?: Omit<UseQueryOptions<Awaited<ReturnType <typeof skipClient.venues>>>, "queryKey" | "queryFn">) => {
+export const useSwapVenuesQuery = (props?: Omit<UseQueryOptions<Awaited<ReturnType <typeof venues>>>, "queryKey" | "queryFn">) => {
   return useQuery({
     queryKey: ["swapVenues"],
     queryFn: async () => {
-      return await skipClient.venues()
+      return await venues()
     },
     ...props,
   });

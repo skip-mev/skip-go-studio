@@ -23,8 +23,8 @@ export const useWidgetFilters = () => {
       if (!selectedChains) return undefined;
 
       const notSelectedChains = chains
-        .filter((chain) => !selectedChains?.includes(chain.chainID))
-        .map((chain) => chain.chainID);
+        .filter((chain) => !selectedChains?.includes(chain.chainId))
+        .map((chain) => chain.chainId);
       if (selectedChains.length > notSelectedChains.length) {
         notSelectedChains.forEach((chainId) => {
           filterOut[chainId] = undefined;

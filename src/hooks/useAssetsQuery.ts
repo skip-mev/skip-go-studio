@@ -1,13 +1,13 @@
-import { skipClient } from "@/utils/skipClient";
+import { assets } from "@skip-go/client";
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 
-export const useAssetsQuery = (props?: Omit<UseQueryOptions<Awaited<ReturnType <typeof skipClient.assets>>>, "queryKey" | "queryFn">) => {
+export const useAssetsQuery = (props?: Omit<UseQueryOptions<Awaited<ReturnType <typeof assets>>>, "queryKey" | "queryFn">) => {
 
   return useQuery({
     queryKey: ["assets"],
     queryFn: async () => {
-      return await skipClient.assets({
-        includeCW20Assets: true,
+      return await assets({
+        includeCw20Assets: true,
         includeEvmAssets: true,
         includeSvmAssets: true,
       });

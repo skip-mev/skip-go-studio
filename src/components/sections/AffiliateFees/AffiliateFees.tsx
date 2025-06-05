@@ -15,11 +15,11 @@ export const Affiliates = () => {
     useStudioStore();
   const swapVenuesChains = useMemo(() => {
     const chainIds = [
-      ...new Set(swapVenues?.map((swapVenue) => swapVenue.chainID)),
+      ...new Set(swapVenues?.map((swapVenue) => swapVenue.chainId)),
     ];
     return chainIds
       .map((c) => {
-        const chain = chains?.find((chain) => chain.chainID === c);
+        const chain = chains?.find((chain) => chain.chainId === c);
         return chain;
       })
       .filter(Boolean) as Chain[];
@@ -78,7 +78,7 @@ export const Affiliates = () => {
         <div className="flex flex-col gap-4">
           {Object.entries(chainIdsToAddresses || {}).map(
             ([chainId, addresses]) => {
-              const chain = chains?.find((chain) => chain.chainID === chainId);
+              const chain = chains?.find((chain) => chain.chainId === chainId);
               const placeholder = (() => {
                 if (chain?.chainType === "cosmos") {
                   return `${chain?.bech32Prefix}...`;
@@ -90,7 +90,7 @@ export const Affiliates = () => {
               })();
 
               return (
-                <div key={chain?.chainID} className="flex flex-col gap-3">
+                <div key={chain?.chainId} className="flex flex-col gap-3">
                   <div className="flex flex-col gap-2 ">
                     <div className="flex flex-row gap-2 w-full items-center justify-between">
                       <span className="text-lg">{chain?.prettyName}</span>
@@ -112,7 +112,7 @@ export const Affiliates = () => {
                     </div>
                     <div className="flex flex-row gap-2 flex-wrap">
                       {swapVenues
-                        ?.filter((s) => s.chainID === chainId)
+                        ?.filter((s) => s.chainId === chainId)
                         .map((i) => (
                           <span
                             className="text-[#A5A5A5] font-abcdiatype-mono text-sm"
@@ -298,9 +298,9 @@ const ChainSelection = ({
           {chains
             ?.filter((i) => i.chainType === "cosmos")
             .map((chain) => (
-              <MenuItem key={chain.chainID}>
+              <MenuItem key={chain.chainId}>
                 <button
-                  onClick={() => onSelect(chain.chainID)}
+                  onClick={() => onSelect(chain.chainId)}
                   className="block w-full px-4 py-2 text-left text-sm data-focus:bg-gray-10 data-focus:font-semibold"
                 >
                   {chain.prettyName}
