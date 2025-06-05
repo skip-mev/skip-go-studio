@@ -117,7 +117,7 @@ export const Code = () => {
         borderRadius,
       }}
       animate={{
-        bottom: isOpen ? -30 : -500, // 6 * 4 = 24px for bottom-6
+        bottom: isOpen ? -30 : -300, // 6 * 4 = 24px for bottom-6
       }}
       initial={false}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -328,14 +328,13 @@ export const Code = () => {
           marginTop: 0,
           backgroundColor: "black",
           borderRadius,
-          height: 600,
+          height: "400px", // 80px for the header and controls
           overflow: "auto",
           paddingLeft: 4,
           borderTopRightRadius: 0,
           borderTopLeftRadius: 0,
           letterSpacing: 0.2,
         }}
-        c
       >
         {code.data || ""}
       </SyntaxHighlighter>

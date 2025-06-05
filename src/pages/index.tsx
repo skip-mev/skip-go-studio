@@ -21,8 +21,8 @@ import { Affiliates } from "@/components/sections/AffiliateFees/AffiliateFees";
 import { useChainIdsToAffiliates } from "@/hooks/useChainIdsToAffiliates";
 import { Settings } from "@/components/sections/Settings/Settings";
 import { Code } from "@/components/sections/Code/Code";
-import { NextSeo } from "next-seo";
-import { metadata } from "@/constants/metadata";
+import { useIsMobile } from "@/hooks/useIsMobile";
+import { MobileNotSupportedPage } from "@/components/pages/MobileNotSupported";
 
 export default function Studio() {
   const {
@@ -40,25 +40,14 @@ export default function Studio() {
 
   const filters = useWidgetFilters();
   const chainIdsToAffiliates = useChainIdsToAffiliates();
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <MobileNotSupportedPage />;
+  }
 
   return (
     <>
-      <NextSeo
-        title={metadata.name}
-        description={metadata.description}
-        openGraph={{
-          title: metadata.name,
-          description: metadata.description,
-          type: "website",
-          site_name: metadata.name,
-          images: metadata.images,
-        }}
-        twitter={{
-          cardType: "summary_large_image",
-          handle: metadata.twitter.username,
-          site: metadata.twitter.username,
-        }}
-      />
       <div className="relative">
         <div
           className="absolute inset-0"
