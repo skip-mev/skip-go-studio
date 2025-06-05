@@ -1,7 +1,14 @@
 "use client";
 import { Widget } from "@skip-go/widget";
-import { debounce } from "lodash";
-import { useAssetSelectorModalStore, useStudioStore } from "@/store/studio";
+import {
+  destinationNetworkAndAssetsStoreDefaultValues,
+  sourceNetworkAndAssetsStoreDefaultValues,
+  studioStoreDefaultValues,
+  useAssetSelectorModalStore,
+  useDestinationNetworkAndAssetsStore,
+  useSourceNetworkAndAssetsStore,
+  useStudioStore,
+} from "@/store/studio";
 import { Card } from "@/components/Card";
 import { NetworksAndAssets } from "@/components/sections/NetworkAndAssets/NetworksAndAssets";
 import { DefaultRoute } from "@/components/sections/DefaultRoute/DefaultRoute";
@@ -29,11 +36,6 @@ export default function Studio() {
     borderRadius,
   } = useStudioStore();
   const { chainId } = useAssetSelectorModalStore();
-  const saveBackgroundColor = debounce((color: string) => {
-    useStudioStore.setState({
-      backgroundColor: color,
-    });
-  }, 200);
 
   const filters = useWidgetFilters();
   const chainIdsToAffiliates = useChainIdsToAffiliates();
@@ -81,7 +83,7 @@ export default function Studio() {
           <div
             className={`flex flex-1 flex-col p-6 sticky top-0 h-screen overflow-hidden`}
           >
-            <div className="mb-8 flex justify-end">
+            <div className="mb-8 flex justify-end gap-2">
               <div>
                 <a
                   href="https://www.npmjs.com/package/@skip-go/widget"
@@ -94,6 +96,43 @@ export default function Studio() {
                   Install Skip Go Widget
                 </a>
               </div>
+              <div>
+                <a
+                  href="https://discord.com/invite/5pmQGwc9"
+                  target="_blank"
+                  className="inline-flex w-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
+                  style={{
+                    borderRadius: borderRadius / 1.5,
+                  }}
+                >
+                  Request for whitelist
+                </a>
+              </div>
+              <button
+                className="justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
+                style={{
+                  borderRadius: borderRadius / 1.5,
+                }}
+                onClick={() => {
+                  useStudioStore.setState(studioStoreDefaultValues);
+                  useSourceNetworkAndAssetsStore.setState(
+                    sourceNetworkAndAssetsStoreDefaultValues
+                  );
+                  useDestinationNetworkAndAssetsStore.setState(
+                    destinationNetworkAndAssetsStoreDefaultValues
+                  );
+                  useStudioStore.setState({
+                    defaultRoute: {
+                      destChainId: undefined,
+                      destAssetDenom: undefined,
+                      srcChainId: undefined,
+                      srcAssetDenom: undefined,
+                    },
+                  });
+                }}
+              >
+                Reset
+              </button>
             </div>
 
             <div className="flex flex-1 flex-col items-center justify-center relative overflow-hidden">
@@ -118,23 +157,6 @@ export default function Studio() {
                 />
               </div>
               <Code />
-            </div>
-
-            <div className="mt-4 flex justify-end mr-6">
-              <div className="flex items-center gap-2 text-sm text-zinc-400">
-                <span>Background</span>
-                <div className="h-6 w-6 cursor-pointer overflow-hidden rounded-full border border-zinc-600">
-                  <input
-                    type="color"
-                    value={backgroundColor}
-                    onChange={(e) => saveBackgroundColor(e.target.value)}
-                    className="cursor-pointer border-none opacity-0 outline-none"
-                    style={{
-                      backgroundColor: backgroundColor,
-                    }}
-                  />
-                </div>
-              </div>
             </div>
           </div>
         </div>

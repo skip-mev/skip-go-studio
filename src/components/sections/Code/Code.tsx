@@ -8,6 +8,7 @@ import * as prettier from "prettier/standalone";
 import * as parserBabel from "prettier/plugins/babel";
 import pluginEstree from "prettier/plugins/estree";
 
+import { debounce } from "lodash";
 import { useQuery } from "@tanstack/react-query";
 import { ChevronDownIcon } from "@/components/icons/ChevronDown";
 import { cn } from "@/utils/ui";
@@ -32,7 +33,13 @@ export const Code = () => {
     defaultMaxSlippage,
     allowMultiTx,
     borderRadius,
+    backgroundColor,
   } = useStudioStore();
+  const saveBackgroundColor = debounce((color: string) => {
+    useStudioStore.setState({
+      backgroundColor: color,
+    });
+  }, 200);
 
   const [copied, setCopied] = useState(false);
 
@@ -110,12 +117,33 @@ export const Code = () => {
         borderRadius,
       }}
       animate={{
-        bottom: isOpen ? 24 : -500, // 6 * 4 = 24px for bottom-6
+        bottom: isOpen ? -30 : -500, // 6 * 4 = 24px for bottom-6
       }}
       initial={false}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
       <div className="relative w-full h-9">
+        <div className="absolute left-0 top-0">
+          <div className="bg-black h-9 px-4 rounded-tr-2xl gap-2 rounded-tl-2xl flex items-center justify-center">
+            <div
+              className="h-6 w-6 cursor-pointer overflow-hidden rounded-full border border-zinc-600"
+              style={{
+                backgroundColor,
+              }}
+            >
+              <input
+                type="color"
+                value={backgroundColor}
+                onChange={(e) => saveBackgroundColor(e.target.value)}
+                className="cursor-pointer border-none opacity-0 outline-none"
+                style={{
+                  backgroundColor: backgroundColor,
+                }}
+              />
+            </div>
+            <span>Background</span>
+          </div>
+        </div>
         <div className="absolute left-1/2 -translate-x-1/2 top-0">
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -304,6 +332,7 @@ export const Code = () => {
           overflow: "auto",
           paddingLeft: 4,
           borderTopRightRadius: 0,
+          borderTopLeftRadius: 0,
           letterSpacing: 0.2,
         }}
         c
