@@ -22,6 +22,7 @@ import { useChainIdsToAffiliates } from "@/hooks/useChainIdsToAffiliates";
 import { Settings } from "@/components/sections/Settings/Settings";
 import { Code } from "@/components/sections/Code/Code";
 import { NextSeo } from "next-seo";
+import { metadata } from "@/constants/metadata";
 
 export default function Studio() {
   const {
@@ -43,8 +44,20 @@ export default function Studio() {
   return (
     <>
       <NextSeo
-        title="Skip:go Studio"
-        description="Onboard users from anywhere to your app with Skip:Go. Configure the widget to suit your needs"
+        title={metadata.name}
+        description={metadata.description}
+        openGraph={{
+          title: metadata.name,
+          description: metadata.description,
+          type: "website",
+          site_name: metadata.name,
+          images: metadata.images,
+        }}
+        twitter={{
+          cardType: "summary_large_image",
+          handle: metadata.twitter.username,
+          site: metadata.twitter.username,
+        }}
       />
       <div className="relative">
         <div
