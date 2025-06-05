@@ -1,23 +1,39 @@
 import { create } from "zustand";
 import { defaultTheme, Theme, WidgetProps } from "@skip-go/widget";
 import { skipClient } from "@/utils/skipClient";
+import {
+  persist,
+  subscribeWithSelector,
+  type PersistOptions,
+} from "zustand/middleware";
 
 type Unpacked<T> = T extends (infer U)[] ? U : T;
-
-export const useStudioStore = create<{
+interface StudioStore {
   assetSelectorModalOpen: boolean;
   backgroundColor: string;
   borderRadius: number;
   theme: Theme;
   defaultRoute?: WidgetProps["defaultRoute"];
-  bridges?: Unpacked<Awaited<ReturnType<typeof skipClient.bridges>>>['id'][];
-  swapVenues?: { chainId: string, name: string }[];
+  bridges?: Unpacked<Awaited<ReturnType<typeof skipClient.bridges>>>["id"][];
+  swapVenues?: { chainId: string; name: string }[];
   chainIdsToAddresses?: Record<string, string[]>;
   basisPointsFee?: Record<string, string>;
   allowMultiTx?: boolean;
   erc20UnlimitedApproval?: boolean;
   defaultMaxSlippage?: number;
-}>(() => ({
+}
+
+interface SourceNetworkAndAssetsStore {
+  sourceSelectedChains?: string[];
+  sourceSelectedAssets?: Record<string, string[]>;
+}
+
+interface DestinationNetworkAndAssetsStore {
+  destinationSelectedChains?: string[];
+  destinationSelectedAssets?: Record<string, string[]>;
+}
+
+export const studioStoreDefaultValues: StudioStore = {
   assetSelectorModalOpen: false,
   backgroundColor: "#000000",
   borderRadius: 15,
@@ -30,23 +46,64 @@ export const useStudioStore = create<{
   allowMultiTx: true,
   erc20UnlimitedApproval: true,
   defaultMaxSlippage: 1,
-}));
+};
 
-export const useSourceNetworkAndAssetsStore = create<{
-  sourceSelectedChains?: string[];
-  sourceSelectedAssets?: Record<string, string[]>;
-}>(() => ({
+const studioStorePersistOptions: PersistOptions<StudioStore, StudioStore> = {
+  name: "studio-store",
+  partialize: (x) => x,
+  version: 1,
+};
+
+export const useStudioStore = create(
+  subscribeWithSelector(
+    persist(() => studioStoreDefaultValues, studioStorePersistOptions)
+  )
+);
+
+export const sourceNetworkAndAssetsStoreDefaultValues = {
   sourceSelectedChains: undefined,
   sourceSelectedAssets: undefined,
-}));
+};
+const sourceNetworkAndAssetsStorePersistOptions: PersistOptions<
+  SourceNetworkAndAssetsStore,
+  SourceNetworkAndAssetsStore
+> = {
+  name: "studio-source-store",
+  partialize: (x) => x,
+  version: 1,
+};
 
-export const useDestinationNetworkAndAssetsStore = create<{
-  destinationSelectedChains?: string[];
-  destinationSelectedAssets?: Record<string, string[]>;
-}>(() => ({
+export const useSourceNetworkAndAssetsStore = create(
+  subscribeWithSelector(
+    persist(
+      () => sourceNetworkAndAssetsStoreDefaultValues,
+      sourceNetworkAndAssetsStorePersistOptions
+    )
+  )
+);
+
+export const destinationNetworkAndAssetsStoreDefaultValues = {
   destinationSelectedChains: undefined,
   destinationSelectedAssets: undefined,
-}));
+};
+
+const destinationNetworkAndAssetsStorePersistOptions: PersistOptions<
+  DestinationNetworkAndAssetsStore,
+  DestinationNetworkAndAssetsStore
+> = {
+  name: "studio-destination-store",
+  partialize: (x) => x,
+  version: 1,
+};
+
+export const useDestinationNetworkAndAssetsStore = create(
+  subscribeWithSelector(
+    persist(
+      () => destinationNetworkAndAssetsStoreDefaultValues,
+      destinationNetworkAndAssetsStorePersistOptions
+    )
+  )
+);
 
 export const useAssetSelectorModalStore = create<{
   chainId?: string;
@@ -54,4 +111,4 @@ export const useAssetSelectorModalStore = create<{
 }>(() => ({
   chainId: undefined,
   context: undefined,
-}))
+}));
