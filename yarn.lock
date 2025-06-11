@@ -2054,7 +2054,25 @@
     "@sentry/core" "8.55.0"
     hoist-non-react-statics "^3.3.2"
 
-"@skip-go/client@1.1.9", "@skip-go/client@^1.1.9":
+"@skip-go/client@1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@skip-go/client/-/client-1.2.2.tgz#5a7620437acf45fb5c77ba840871b2d6cd899ca2"
+  integrity sha512-iFlTQzkuWY3iIV4L+4kt4zaEahE7fuVHPLJe092PKK+BG4t14tbJ5BoYb+vhFG3rRYFMrPgb2zRRmBKOrvxFzQ==
+  dependencies:
+    "@cosmjs/amino" "0.33.1"
+    "@cosmjs/cosmwasm-stargate" "0.33.1"
+    "@cosmjs/encoding" "0.33.1"
+    "@cosmjs/math" "0.33.1"
+    "@cosmjs/proto-signing" "0.33.1"
+    "@cosmjs/stargate" "0.33.1"
+    "@injectivelabs/sdk-ts" "1.15.3"
+    "@keplr-wallet/unit" "^0.12.143"
+    "@solana/wallet-adapter-base" "^0.9.23"
+    bech32 "^2.0.0"
+    cosmjs-types "^0.9.0"
+    keccak "3.0.4"
+
+"@skip-go/client@^1.1.9":
   version "1.1.9"
   resolved "https://registry.yarnpkg.com/@skip-go/client/-/client-1.1.9.tgz#c8b6c3949e0ae1776effc054f6091cafb13c7023"
   integrity sha512-yNNex9DhJZiv5IJR48vTB4oNT00hklb7vmPRDh3hjQeCGNoBSsH3gg9rv7zhcDcEYUULY5Bc0Pms0uD0lxrYrg==
@@ -2072,10 +2090,9 @@
     cosmjs-types "^0.9.0"
     keccak "3.0.4"
 
-"@skip-go/widget@^3.10.11":
-  version "3.10.11"
-  resolved "https://registry.yarnpkg.com/@skip-go/widget/-/widget-3.10.11.tgz#059fd3217f5c713c3624342d440b03caa29d3b58"
-  integrity sha512-EaMevoMwv8s1gd2THPpqIe8g07OivGOGnbaT6bpFUKwSyxebzRuhDrsM3CLsfYtLJdWzKjeSHuLV0EFd8lMScQ==
+"@skip-go/widget@file:skip-go-widget-3.11.6.tgz":
+  version "3.11.6"
+  resolved "file:skip-go-widget-3.11.6.tgz#c818b5c382fb87446d488dd56b2e52265e8c3d40"
   dependencies:
     "@amplitude/analytics-browser" "^2.11.12"
     "@amplitude/plugin-session-replay-browser" "^1.16.5"
@@ -2093,7 +2110,7 @@
     "@penumbra-zone/transport-dom" "^7.5.0"
     "@r2wc/react-to-web-component" "^2.0.3"
     "@sentry/react" "^8.46.0"
-    "@skip-go/client" "1.1.9"
+    "@skip-go/client" "1.2.2"
     "@solana/spl-token" "^0.4.8"
     "@solana/wallet-adapter-backpack" "^0.1.14"
     "@solana/wallet-adapter-coinbase" "^0.1.19"

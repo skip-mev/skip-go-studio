@@ -2,6 +2,7 @@ import { useStudioStore } from "@/store/studio";
 import { ColorSelectionButton } from "./ColorSelectionButton";
 import { FilterButton } from "@/components/SmallPillButton";
 import { defaultTheme, lightTheme } from "@skip-go/widget";
+import { BorderRadiusInput } from "./BorderRadiusInput";
 
 export const ColorSelection = () => {
   const { theme } = useStudioStore();
@@ -11,29 +12,30 @@ export const ColorSelection = () => {
       <div className="flex flex-row gap-2">
         <FilterButton
           onClick={() => {
-            useStudioStore.setState({
-              theme: defaultTheme,
+            useStudioStore.setState((prev) => ({
+              theme: { ...defaultTheme, borderRadius: prev.theme.borderRadius },
               backgroundColor: "#000000",
-            });
+            }));
           }}
         >
           Load dark theme
         </FilterButton>
         <FilterButton
           onClick={() => {
-            useStudioStore.setState({
-              theme: lightTheme,
+            useStudioStore.setState((prev) => ({
+              theme: { ...lightTheme, borderRadius: prev.theme.borderRadius },
               backgroundColor: "#c7c7c7",
-            });
+            }));
           }}
         >
           Load light theme
         </FilterButton>
         <FilterButton
           onClick={() => {
-            useStudioStore.setState({
+            useStudioStore.setState((prev) => ({
               theme: {
                 brandColor: "#88c070",
+                borderRadius: prev.theme.borderRadius,
                 primary: {
                   background: {
                     normal: "#f2efe4",
@@ -65,7 +67,7 @@ export const ColorSelection = () => {
                 },
               },
               backgroundColor: "#d7d5d1",
-            });
+            }));
           }}
         >
           Load ghibli theme
@@ -322,6 +324,99 @@ export const ColorSelection = () => {
           });
         }}
       />
+      <span className="text-xl mt-2">Border radius</span>
+      <div className="flex flex-col gap-4 pl-4">
+        <BorderRadiusInput
+          title="Main container"
+          value={theme.borderRadius?.mainContainer}
+          onSave={(size) => {
+            useStudioStore.setState({
+              theme: {
+                ...theme,
+                borderRadius: {
+                  ...theme.borderRadius,
+                  mainContainer: `${String(size)}px`,
+                },
+              },
+            });
+          }}
+        />
+        <BorderRadiusInput
+          title="Modal container"
+          value={theme.borderRadius?.modalContainer}
+          onSave={(size) => {
+            useStudioStore.setState({
+              theme: {
+                ...theme,
+                borderRadius: {
+                  ...theme.borderRadius,
+                  modalContainer: `${String(size)}px`,
+                },
+              },
+            });
+          }}
+        />
+        <BorderRadiusInput
+          title="Main button"
+          value={theme.borderRadius?.mainButton}
+          onSave={(size) => {
+            useStudioStore.setState({
+              theme: {
+                ...theme,
+                borderRadius: {
+                  ...theme.borderRadius,
+                  mainButton: `${String(size)}px`,
+                },
+              },
+            });
+          }}
+        />
+        <BorderRadiusInput
+          title="Selection button"
+          value={theme.borderRadius?.selectionButton}
+          onSave={(size) => {
+            useStudioStore.setState({
+              theme: {
+                ...theme,
+                borderRadius: {
+                  ...theme.borderRadius,
+                  selectionButton: `${String(size)}px`,
+                },
+              },
+            });
+          }}
+        />
+        <BorderRadiusInput
+          title="Ghost button"
+          value={theme.borderRadius?.ghostButton}
+          onSave={(size) => {
+            useStudioStore.setState({
+              theme: {
+                ...theme,
+                borderRadius: {
+                  ...theme.borderRadius,
+                  ghostButton: `${String(size)}px`,
+                },
+              },
+            });
+          }}
+        />
+        <BorderRadiusInput
+          title="Row item"
+          value={theme.borderRadius?.rowItem}
+          onSave={(size) => {
+            useStudioStore.setState({
+              theme: {
+                ...theme,
+                borderRadius: {
+                  ...theme.borderRadius,
+                  rowItem: `${String(size)}px`,
+                },
+              },
+            });
+          }}
+        />
+      </div>
     </div>
   );
 };

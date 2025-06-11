@@ -69,7 +69,7 @@ const sourceNetworkAndAssetsStorePersistOptions: PersistOptions<
 > = {
   name: "studio-source-store",
   partialize: (x) => x,
-  version: 1,
+  version: 2,
 };
 
 export const useSourceNetworkAndAssetsStore = create(

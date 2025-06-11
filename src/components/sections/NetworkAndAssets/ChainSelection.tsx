@@ -27,7 +27,11 @@ export const ChainSelection = ({
   const selectedChains =
     context === "source" ? sourceSelectedChains : destinationSelectedChains;
 
-  const { data: chains, isLoading: isChainsLoading } = useChainsQuery({
+  const {
+    data: chains,
+    isLoading: isChainsLoading,
+    error,
+  } = useChainsQuery({
     select: (data) => {
       if (!data) return [];
       return matchSorter(data, searchInput, {
@@ -36,7 +40,7 @@ export const ChainSelection = ({
       });
     },
   });
-
+  console.log("chains", chains, error, isChainsLoading);
   const { isLoading: isAssetsLoading, data: assets } = useAssetsQuery();
 
   const setSelectedChains = useCallback(
