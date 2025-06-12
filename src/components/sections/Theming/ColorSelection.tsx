@@ -327,15 +327,15 @@ export const ColorSelection = () => {
       <span className="text-xl mt-2">Border radius</span>
       <div className="flex flex-col gap-4 pl-4">
         <BorderRadiusInput
-          title="Main container"
-          value={theme.borderRadius?.mainContainer}
+          title="Main"
+          value={theme.borderRadius?.main}
           onSave={(size) => {
             useStudioStore.setState({
               theme: {
                 ...theme,
                 borderRadius: {
                   ...theme.borderRadius,
-                  mainContainer: `${String(size)}px`,
+                  main: `${String(size)}px`,
                 },
               },
             });
@@ -351,21 +351,6 @@ export const ColorSelection = () => {
                 borderRadius: {
                   ...theme.borderRadius,
                   modalContainer: `${String(size)}px`,
-                },
-              },
-            });
-          }}
-        />
-        <BorderRadiusInput
-          title="Main button"
-          value={theme.borderRadius?.mainButton}
-          onSave={(size) => {
-            useStudioStore.setState({
-              theme: {
-                ...theme,
-                borderRadius: {
-                  ...theme.borderRadius,
-                  mainButton: `${String(size)}px`,
                 },
               },
             });

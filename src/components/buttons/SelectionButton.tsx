@@ -13,7 +13,7 @@ export const SelectionButton = ({
   text?: string;
   children?: React.ReactNode;
 }) => {
-  const { borderRadius } = useStudioStore();
+  const { theme } = useStudioStore();
   return (
     <button
       onClick={(e) => {
@@ -23,7 +23,7 @@ export const SelectionButton = ({
       }}
       className="flex flex-row items-center justify-between px-5 gap-2 bg-[#1D1D1D] h-10 w-44"
       style={{
-        borderRadius: borderRadius / 1.5,
+        borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
       }}
     >
       {text && <span>{text}</span>}

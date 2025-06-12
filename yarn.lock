@@ -2054,10 +2054,10 @@
     "@sentry/core" "8.55.0"
     hoist-non-react-statics "^3.3.2"
 
-"@skip-go/client@1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@skip-go/client/-/client-1.2.2.tgz#5a7620437acf45fb5c77ba840871b2d6cd899ca2"
-  integrity sha512-iFlTQzkuWY3iIV4L+4kt4zaEahE7fuVHPLJe092PKK+BG4t14tbJ5BoYb+vhFG3rRYFMrPgb2zRRmBKOrvxFzQ==
+"@skip-go/client@1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@skip-go/client/-/client-1.2.3.tgz#ee187f919eef48cc56e74d5a6dae1d92489257dc"
+  integrity sha512-/kIx4umVFJ3Zcgf1MJjUq6b9AsQWtsDT/YqwdCjlFErxxYyA+t16U8NfbT0Ncn1pLGtsOyvhOVREawKFZ22lAQ==
   dependencies:
     "@cosmjs/amino" "0.33.1"
     "@cosmjs/cosmwasm-stargate" "0.33.1"
@@ -2090,9 +2090,10 @@
     cosmjs-types "^0.9.0"
     keccak "3.0.4"
 
-"@skip-go/widget@file:skip-go-widget-3.11.6.tgz":
-  version "3.11.6"
-  resolved "file:skip-go-widget-3.11.6.tgz#c818b5c382fb87446d488dd56b2e52265e8c3d40"
+"@skip-go/widget@3.12.0":
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/@skip-go/widget/-/widget-3.12.0.tgz#e5976284bd7aeb6a53ac38801d399a0a063cf17d"
+  integrity sha512-OPA2LZ10vTx5MRs4DifErvjtqLTyR9/szZNlfNpajuPfBVl1AGB++dtYAyesaQmDdW3Rx+gtXYNche2Lpwzw7Q==
   dependencies:
     "@amplitude/analytics-browser" "^2.11.12"
     "@amplitude/plugin-session-replay-browser" "^1.16.5"
@@ -2110,7 +2111,7 @@
     "@penumbra-zone/transport-dom" "^7.5.0"
     "@r2wc/react-to-web-component" "^2.0.3"
     "@sentry/react" "^8.46.0"
-    "@skip-go/client" "1.2.2"
+    "@skip-go/client" "1.2.3"
     "@solana/spl-token" "^0.4.8"
     "@solana/wallet-adapter-backpack" "^0.1.14"
     "@solana/wallet-adapter-coinbase" "^0.1.19"

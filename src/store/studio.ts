@@ -10,7 +10,6 @@ import { BridgeType } from "@skip-go/client";
 interface StudioStore {
   assetSelectorModalOpen: boolean;
   backgroundColor: string;
-  borderRadius: number;
   theme: Theme;
   defaultRoute?: WidgetProps["defaultRoute"];
   bridges?: (BridgeType | undefined)[];
@@ -35,7 +34,6 @@ interface DestinationNetworkAndAssetsStore {
 export const studioStoreDefaultValues: StudioStore = {
   assetSelectorModalOpen: false,
   backgroundColor: "#000000",
-  borderRadius: 15,
   theme: defaultTheme,
   defaultRoute: undefined,
   bridges: undefined,

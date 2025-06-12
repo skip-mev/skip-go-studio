@@ -13,7 +13,7 @@
     "@heroicons/react": "^2.2.0",
     "@prettier/sync": "^0.5.5",
     "@skip-go/client": "^1.1.9",
-    "@skip-go/widget": "file:skip-go-widget-3.11.6.tgz",
+    "@skip-go/widget": "3.12.0",
     "@tanstack/react-query": "^5.70.0",
     "@tanstack/react-virtual": "^3.13.6",
     "@uiw/react-color-sketch": "^2.5.3",

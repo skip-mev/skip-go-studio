@@ -6,7 +6,7 @@ import { useStudioStore } from "@/store/studio";
 
 export const NetworksAndAssets = () => {
   const [context, setContext] = useState<"source" | "destination">("source");
-  const { borderRadius } = useStudioStore();
+  const { theme } = useStudioStore();
   return (
     <AccordionCard title="Network and Assets">
       <p className="text-start">
@@ -19,7 +19,7 @@ export const NetworksAndAssets = () => {
             context === "source" && "bg-white text-black"
           )}
           style={{
-            borderRadius: borderRadius / 1.5,
+            borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
           }}
           onClick={(e) => {
             e.preventDefault();
@@ -35,7 +35,7 @@ export const NetworksAndAssets = () => {
             context === "destination" && "bg-white text-black"
           )}
           style={{
-            borderRadius: borderRadius / 1.5,
+            borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
           }}
           onClick={(e) => {
             e.preventDefault();

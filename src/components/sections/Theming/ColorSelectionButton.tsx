@@ -13,7 +13,7 @@ export const ColorSelectionButton = ({
   onSave: (color: string) => void;
   value: string;
 }) => {
-  const { borderRadius } = useStudioStore();
+  const { theme } = useStudioStore();
 
   const saveColor = debounce((color: string) => {
     onSave(color);
@@ -27,7 +27,7 @@ export const ColorSelectionButton = ({
           <Popover className="relative">
             <PopoverButton
               style={{
-                borderRadius: borderRadius / 1.5,
+                borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
               }}
               className="flex flex-row items-center justify-between px-5 gap-2 bg-[#1D1D1D] h-10 w-40"
             >
