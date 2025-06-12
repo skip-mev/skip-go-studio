@@ -33,7 +33,7 @@ interface DestinationNetworkAndAssetsStore {
 
 export const studioStoreDefaultValues: StudioStore = {
   assetSelectorModalOpen: false,
-  backgroundColor: "#000000",
+  backgroundColor: "#1d1d1d",
   theme: defaultTheme,
   defaultRoute: undefined,
   bridges: undefined,

@@ -141,7 +141,7 @@ export default function Studio() {
             </div>
 
             <div className="flex flex-1 flex-col items-center justify-center relative overflow-hidden">
-              <div className="w-full max-w-md">
+              <div className="w-full max-w-md mb-[160px]">
                 <Widget
                   theme={theme}
                   defaultRoute={defaultRoute}

@@ -14,7 +14,7 @@ export const ColorSelection = () => {
           onClick={() => {
             useStudioStore.setState((prev) => ({
               theme: { ...defaultTheme, borderRadius: prev.theme.borderRadius },
-              backgroundColor: "#000000",
+              backgroundColor: "#1d1d1d",
             }));
           }}
         >
