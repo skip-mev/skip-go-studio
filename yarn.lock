@@ -2054,7 +2054,25 @@
     "@sentry/core" "8.55.0"
     hoist-non-react-statics "^3.3.2"
 
-"@skip-go/client@1.1.9", "@skip-go/client@^1.1.9":
+"@skip-go/client@1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@skip-go/client/-/client-1.2.3.tgz#ee187f919eef48cc56e74d5a6dae1d92489257dc"
+  integrity sha512-/kIx4umVFJ3Zcgf1MJjUq6b9AsQWtsDT/YqwdCjlFErxxYyA+t16U8NfbT0Ncn1pLGtsOyvhOVREawKFZ22lAQ==
+  dependencies:
+    "@cosmjs/amino" "0.33.1"
+    "@cosmjs/cosmwasm-stargate" "0.33.1"
+    "@cosmjs/encoding" "0.33.1"
+    "@cosmjs/math" "0.33.1"
+    "@cosmjs/proto-signing" "0.33.1"
+    "@cosmjs/stargate" "0.33.1"
+    "@injectivelabs/sdk-ts" "1.15.3"
+    "@keplr-wallet/unit" "^0.12.143"
+    "@solana/wallet-adapter-base" "^0.9.23"
+    bech32 "^2.0.0"
+    cosmjs-types "^0.9.0"
+    keccak "3.0.4"
+
+"@skip-go/client@^1.1.9":
   version "1.1.9"
   resolved "https://registry.yarnpkg.com/@skip-go/client/-/client-1.1.9.tgz#c8b6c3949e0ae1776effc054f6091cafb13c7023"
   integrity sha512-yNNex9DhJZiv5IJR48vTB4oNT00hklb7vmPRDh3hjQeCGNoBSsH3gg9rv7zhcDcEYUULY5Bc0Pms0uD0lxrYrg==
@@ -2072,10 +2090,10 @@
     cosmjs-types "^0.9.0"
     keccak "3.0.4"
 
-"@skip-go/widget@^3.10.11":
-  version "3.10.11"
-  resolved "https://registry.yarnpkg.com/@skip-go/widget/-/widget-3.10.11.tgz#059fd3217f5c713c3624342d440b03caa29d3b58"
-  integrity sha512-EaMevoMwv8s1gd2THPpqIe8g07OivGOGnbaT6bpFUKwSyxebzRuhDrsM3CLsfYtLJdWzKjeSHuLV0EFd8lMScQ==
+"@skip-go/widget@3.12.0":
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/@skip-go/widget/-/widget-3.12.0.tgz#e5976284bd7aeb6a53ac38801d399a0a063cf17d"
+  integrity sha512-OPA2LZ10vTx5MRs4DifErvjtqLTyR9/szZNlfNpajuPfBVl1AGB++dtYAyesaQmDdW3Rx+gtXYNche2Lpwzw7Q==
   dependencies:
     "@amplitude/analytics-browser" "^2.11.12"
     "@amplitude/plugin-session-replay-browser" "^1.16.5"
@@ -2093,7 +2111,7 @@
     "@penumbra-zone/transport-dom" "^7.5.0"
     "@r2wc/react-to-web-component" "^2.0.3"
     "@sentry/react" "^8.46.0"
-    "@skip-go/client" "1.1.9"
+    "@skip-go/client" "1.2.3"
     "@solana/spl-token" "^0.4.8"
     "@solana/wallet-adapter-backpack" "^0.1.14"
     "@solana/wallet-adapter-coinbase" "^0.1.19"

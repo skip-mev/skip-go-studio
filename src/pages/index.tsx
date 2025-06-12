@@ -35,7 +35,6 @@ export default function Studio() {
     erc20UnlimitedApproval,
     defaultMaxSlippage,
     allowMultiTx,
-    borderRadius,
   } = useStudioStore();
   const { chainId } = useAssetSelectorModalStore();
 
@@ -93,7 +92,8 @@ export default function Studio() {
                   target="_blank"
                   className="inline-flex w-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
                   style={{
-                    borderRadius: borderRadius / 1.5,
+                    borderRadius:
+                      parseInt(String(theme.borderRadius?.main)) / 1.5,
                   }}
                 >
                   Install Skip Go Widget
@@ -105,7 +105,8 @@ export default function Studio() {
                   target="_blank"
                   className="inline-flex w-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
                   style={{
-                    borderRadius: borderRadius / 1.5,
+                    borderRadius:
+                      parseInt(String(theme.borderRadius?.main)) / 1.5,
                   }}
                 >
                   Request for whitelist
@@ -114,7 +115,8 @@ export default function Studio() {
               <button
                 className="justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
                 style={{
-                  borderRadius: borderRadius / 1.5,
+                  borderRadius:
+                    parseInt(String(theme.borderRadius?.main)) / 1.5,
                 }}
                 onClick={() => {
                   useStudioStore.setState(studioStoreDefaultValues);
@@ -139,7 +141,7 @@ export default function Studio() {
             </div>
 
             <div className="flex flex-1 flex-col items-center justify-center relative overflow-hidden">
-              <div className="w-full max-w-md">
+              <div className="w-full max-w-md mb-[160px]">
                 <Widget
                   theme={theme}
                   defaultRoute={defaultRoute}

@@ -6,7 +6,7 @@ export const SmallPillButton = (
   props: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 ) => {
   const { className, onClick, ...rest } = props;
-  const { borderRadius } = useStudioStore();
+  const { theme } = useStudioStore();
   return (
     <div
       className={cn(
@@ -15,7 +15,7 @@ export const SmallPillButton = (
         className
       )}
       style={{
-        borderRadius: borderRadius / 1.5,
+        borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
       }}
       onClick={onClick}
       {...rest}
@@ -27,12 +27,12 @@ export const FilterButton = (
   props: ButtonHTMLAttributes<HTMLButtonElement>
 ) => {
   const { className, onClick, ...rest } = props;
-  const { borderRadius } = useStudioStore();
+  const { theme } = useStudioStore();
   return (
     <button
       className={cn("bg-[#1D1D1D] px-2.5 py-1.5 text-[13px]", className)}
       style={{
-        borderRadius: borderRadius / 1.5,
+        borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
       }}
       onClick={(e) => {
         e.preventDefault();

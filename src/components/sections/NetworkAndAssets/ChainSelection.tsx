@@ -27,7 +27,11 @@ export const ChainSelection = ({
   const selectedChains =
     context === "source" ? sourceSelectedChains : destinationSelectedChains;
 
-  const { data: chains, isLoading: isChainsLoading } = useChainsQuery({
+  const {
+    data: chains,
+    isLoading: isChainsLoading,
+    error,
+  } = useChainsQuery({
     select: (data) => {
       if (!data) return [];
       return matchSorter(data, searchInput, {
@@ -36,7 +40,7 @@ export const ChainSelection = ({
       });
     },
   });
-
+  console.log("chains", chains, error, isChainsLoading);
   const { isLoading: isAssetsLoading, data: assets } = useAssetsQuery();
 
   const setSelectedChains = useCallback(
@@ -110,14 +114,14 @@ export const ChainSelection = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chains]);
 
-  const { borderRadius } = useStudioStore();
+  const { theme } = useStudioStore();
 
   return (
     <div className="flex flex-col gap-4 text-lg">
       <div
         className="flex w-full flex-row items-center gap-1 bg-[#1D1D1D] px-3 py-1.5 text-[13px]"
         style={{
-          borderRadius: borderRadius / 1.5,
+          borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
         }}
       >
         <MagnifyingGlassIcon className="h-4 w-4" />

@@ -11,8 +11,7 @@ import { PlusIcon } from "@heroicons/react/20/solid";
 export const Affiliates = () => {
   const { data: chains } = useChainsQuery();
   const { data: swapVenues } = useSwapVenuesQuery();
-  const { chainIdsToAddresses, borderRadius, basisPointsFee } =
-    useStudioStore();
+  const { chainIdsToAddresses, theme, basisPointsFee } = useStudioStore();
   const swapVenuesChains = useMemo(() => {
     const chainIds = [
       ...new Set(swapVenues?.map((swapVenue) => swapVenue.chainId)),
@@ -142,7 +141,8 @@ export const Affiliates = () => {
                       <div
                         className="flex w-full flex-row items-center gap-1 bg-[#1D1D1D] px-3 py-1.5 text-[13px]"
                         style={{
-                          borderRadius: borderRadius / 1.5,
+                          borderRadius:
+                            parseInt(String(theme.borderRadius?.main)) / 1.5,
                         }}
                       >
                         <input
@@ -206,7 +206,9 @@ export const Affiliates = () => {
                             <div
                               className="flex w-full flex-row items-center gap-1 bg-[#1D1D1D] px-3 py-1.5 text-[13px]"
                               style={{
-                                borderRadius: borderRadius / 1.5,
+                                borderRadius:
+                                  parseInt(String(theme.borderRadius?.main)) /
+                                  1.5,
                               }}
                             >
                               <input

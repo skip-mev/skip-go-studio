@@ -32,7 +32,6 @@ export const Code = () => {
     erc20UnlimitedApproval,
     defaultMaxSlippage,
     allowMultiTx,
-    borderRadius,
     backgroundColor,
   } = useStudioStore();
   const saveBackgroundColor = debounce((color: string) => {
@@ -114,7 +113,7 @@ export const Code = () => {
     <motion.div
       className="w-full absolute z-40 right-6 pr-0 gap-0 pl-6 p-6"
       style={{
-        borderRadius,
+        borderRadius: theme.borderRadius?.main,
       }}
       animate={{
         bottom: isOpen ? -30 : -300, // 6 * 4 = 24px for bottom-6
@@ -327,7 +326,7 @@ export const Code = () => {
         customStyle={{
           marginTop: 0,
           backgroundColor: "black",
-          borderRadius,
+          borderRadius: 0,
           height: "400px", // 80px for the header and controls
           overflow: "auto",
           paddingLeft: 4,

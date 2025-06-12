@@ -15,7 +15,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export const AssetSelection = () => {
-  const { borderRadius } = useStudioStore();
+  const { theme } = useStudioStore();
   const { chainId, context } = useAssetSelectorModalStore();
   const [input, setInput] = useState("");
 
@@ -149,7 +149,7 @@ export const AssetSelection = () => {
           <div
             className="flex w-[136px] flex-row items-center gap-1 bg-[#1D1D1D] px-3 py-1.5 text-[13px]"
             style={{
-              borderRadius: borderRadius / 1.5,
+              borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
             }}
           >
             <MagnifyingGlassIcon className="h-4 w-4" />
