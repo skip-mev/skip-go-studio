@@ -4,10 +4,14 @@ import type { AppProps } from "next/app";
 import { Analytics } from "@vercel/analytics/next";
 import { metadata } from "@/constants/metadata";
 import { NextSeo } from "next-seo";
+import { setApiOptions } from "@skip-go/client";
 
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
+  setApiOptions({
+    apiUrl: "https://go.skip.build/api/skip/",
+  });
   return (
     <>
       <NextSeo
