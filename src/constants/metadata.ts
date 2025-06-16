@@ -1,8 +1,8 @@
 
 
 export const metadata = {
-  name: "Skip:go Studio",
-  shortName: "Skip:go Studio",
+  name: "Skip:Go - Studio",
+  shortName: "Skip:Go - Studio",
   description:
     "Onboard users from anywhere to your app with Skip:Go. Configure the widget to suit your needs.",
   domain: 'https://studio.skip.build',
