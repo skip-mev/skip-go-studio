@@ -101,7 +101,7 @@ export default function Studio() {
               </div>
               <div>
                 <a
-                  href="https://discord.com/invite/5pmQGwc9"
+                  href="https://skip.build/discord"
                   target="_blank"
                   className="inline-flex w-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
                   style={{
