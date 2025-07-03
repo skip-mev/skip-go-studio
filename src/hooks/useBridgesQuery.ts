@@ -10,7 +10,9 @@ export const useBridgesQuery = (
   return useQuery({
     queryKey: ["bridges"],
     queryFn: async () => {
-      return await bridges();
+      return await bridges({
+        abortDuplicateRequests: false
+      });
     },
     ...props,
   });

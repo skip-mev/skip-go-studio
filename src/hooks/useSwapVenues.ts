@@ -6,7 +6,9 @@ export const useSwapVenuesQuery = (props?: Omit<UseQueryOptions<Awaited<ReturnTy
   return useQuery({
     queryKey: ["swapVenues"],
     queryFn: async () => {
-      return await venues()
+      return await venues({
+        abortDuplicateRequests: false,
+      })
     },
     ...props,
   });

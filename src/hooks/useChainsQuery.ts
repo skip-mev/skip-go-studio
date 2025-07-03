@@ -9,6 +9,7 @@ export const useChainsQuery = (props?: Omit<UseQueryOptions<Awaited<ReturnType <
       return await chains({
         includeEvm: true,
         includeSvm: true,
+        abortDuplicateRequests: false,
       });
     },
     ...props,

@@ -10,6 +10,7 @@ export const useAssetsQuery = (props?: Omit<UseQueryOptions<Awaited<ReturnType <
         includeCw20Assets: true,
         includeEvmAssets: true,
         includeSvmAssets: true,
+        abortDuplicateRequests: false,
       });
     },
     // select: (data) => {
