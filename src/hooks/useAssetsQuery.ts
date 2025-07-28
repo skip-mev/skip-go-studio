@@ -6,6 +6,7 @@ export const useAssetsQuery = (props?: Omit<UseQueryOptions<Awaited<ReturnType <
   return useQuery({
     queryKey: ["assets"],
     queryFn: async () => {
+       await new Promise((resolve) => setTimeout(resolve, 1500));
       return await assets({
         includeCw20Assets: true,
         includeEvmAssets: true,

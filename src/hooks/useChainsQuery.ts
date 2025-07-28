@@ -6,6 +6,8 @@ export const useChainsQuery = (props?: Omit<UseQueryOptions<Awaited<ReturnType <
   return useQuery({
     queryKey: ["chains"],
     queryFn: async () => {
+      // sleep 1s
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       return await chains({
         includeEvm: true,
         includeSvm: true,
