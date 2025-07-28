@@ -6,7 +6,6 @@ import { BorderRadiusInput } from "./BorderRadiusInput";
 
 export const ColorSelection = () => {
   const { theme } = useStudioStore();
-  console.log("theme", theme);
   return (
     <div className="flex flex-col gap-4 relative">
       <div className="flex flex-row gap-2">

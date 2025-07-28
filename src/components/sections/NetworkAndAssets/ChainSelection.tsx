@@ -40,7 +40,6 @@ export const ChainSelection = ({
       });
     },
   });
-  console.log("chains", chains, error, isChainsLoading);
   const { isLoading: isAssetsLoading, data: assets } = useAssetsQuery();
 
   const setSelectedChains = useCallback(

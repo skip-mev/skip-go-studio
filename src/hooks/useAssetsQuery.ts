@@ -17,7 +17,6 @@ export const useAssetsQuery = (
             includeSvmAssets: true,
             abortDuplicateRequests: false,
           });
-          console.log("Attempting to fetch assets, attempt number:", attempt);
           if (result !== undefined) {
             return result;
           }
