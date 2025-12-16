@@ -26,6 +26,11 @@ export const AssetSelection = () => {
   const { data: assets, isLoading: isAssetsLoading } = useAssetsQuery();
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const inputBorderRadius = useMemo(
+    () => parseInt(String(theme.borderRadius?.main)) / 1.5,
+    [theme.borderRadius?.main]
+  );
+
   const selectedAssets =
     context === "source" ? sourceSelectedAssets : destinationSelectedAssets;
 
@@ -149,7 +154,7 @@ export const AssetSelection = () => {
           <div
             className="flex w-[136px] flex-row items-center gap-1 bg-[#1D1D1D] px-3 py-1.5 text-[13px]"
             style={{
-              borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
+              borderRadius: inputBorderRadius,
             }}
           >
             <MagnifyingGlassIcon className="h-4 w-4" />

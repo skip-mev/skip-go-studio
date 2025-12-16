@@ -4,7 +4,7 @@ import {
 } from "@/store/studio";
 import { useChainsQuery } from "./useChainsQuery";
 import { useAssetsQuery } from "./useAssetsQuery";
-import { useCallback } from "react";
+import { useMemo } from "react";
 import { WidgetProps } from "@skip-go/widget";
 
 export const useWidgetFilters = () => {
@@ -15,8 +15,8 @@ export const useWidgetFilters = () => {
   const { data: chains } = useChainsQuery();
   const { data: assets } = useAssetsQuery();
 
-  const getFilters = useCallback(
-    (selectedChains?: string[], selectedAssets?: Record<string, string[]>) => {
+  const getFilters = useMemo(() => {
+    return (selectedChains?: string[], selectedAssets?: Record<string, string[]>) => {
       if (!chains || !assets) return undefined;
       let filter: Record<string, string[] | undefined> = {};
       const filterOut: Record<string, string[] | undefined> = {};
@@ -56,28 +56,37 @@ export const useWidgetFilters = () => {
       }
 
       return {
-        filter: Object.values(filter).length > 0 ? filter : undefined,
-        filterOut: Object.values(filterOut).length > 0 ? filterOut : undefined,
+        filter: Object.keys(filter).length > 0 ? filter : undefined,
+        filterOut: Object.keys(filterOut).length > 0 ? filterOut : undefined,
       };
-    },
-    [assets, chains]
+    };
+  }, [assets, chains]);
+
+  const sourceFilters = useMemo(
+    () => getFilters(sourceSelectedChains, sourceSelectedAssets),
+    [getFilters, sourceSelectedChains, sourceSelectedAssets]
   );
 
-  const filter: WidgetProps["filter"] = {
-    source: getFilters(sourceSelectedChains, sourceSelectedAssets)?.filter,
-    destination: getFilters(
-      destinationSelectedChains,
-      destinationSelectedAssets
-    )?.filter,
-  };
+  const destinationFilters = useMemo(
+    () => getFilters(destinationSelectedChains, destinationSelectedAssets),
+    [getFilters, destinationSelectedChains, destinationSelectedAssets]
+  );
 
-  const filterOut: WidgetProps["filterOut"] = {
-    source: getFilters(sourceSelectedChains, sourceSelectedAssets)?.filterOut,
-    destination: getFilters(
-      destinationSelectedChains,
-      destinationSelectedAssets
-    )?.filterOut,
-  };
+  const filter: WidgetProps["filter"] = useMemo(
+    () => ({
+      source: sourceFilters?.filter,
+      destination: destinationFilters?.filter,
+    }),
+    [sourceFilters, destinationFilters]
+  );
+
+  const filterOut: WidgetProps["filterOut"] = useMemo(
+    () => ({
+      source: sourceFilters?.filterOut,
+      destination: destinationFilters?.filterOut,
+    }),
+    [sourceFilters, destinationFilters]
+  );
 
   return {
     filter,

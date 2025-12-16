@@ -1,10 +1,17 @@
 import { AccordionCard } from "@/components/AccordionCard";
 import { Checkbox } from "@/components/Checkbox";
 import { useStudioStore } from "@/store/studio";
+import { useMemo } from "react";
 
 export const Settings = () => {
   const { theme, allowMultiTx, erc20UnlimitedApproval, defaultMaxSlippage } =
     useStudioStore();
+
+  const inputBorderRadius = useMemo(
+    () => parseInt(String(theme.borderRadius?.main)) / 1.5,
+    [theme.borderRadius?.main]
+  );
+
   return (
     <AccordionCard title="Settings">
       <p className="text-start">
@@ -37,7 +44,7 @@ export const Settings = () => {
         <div
           className="flex w-30 flex-row items-center gap-1 bg-[#1D1D1D] px-3 py-1.5 text-[13px]"
           style={{
-            borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
+            borderRadius: inputBorderRadius,
           }}
         >
           <input

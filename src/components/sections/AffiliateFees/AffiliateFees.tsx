@@ -24,6 +24,11 @@ export const Affiliates = () => {
       .filter(Boolean) as Chain[];
   }, [chains, swapVenues]);
 
+  const inputBorderRadius = useMemo(
+    () => parseInt(String(theme.borderRadius?.main)) / 1.5,
+    [theme.borderRadius?.main]
+  );
+
   // const [addresses, setAddresses] = useState<Record<string, string[]>>({});
 
   const handleAddressChange = (
@@ -141,8 +146,7 @@ export const Affiliates = () => {
                       <div
                         className="flex w-full flex-row items-center gap-1 bg-[#1D1D1D] px-3 py-1.5 text-[13px]"
                         style={{
-                          borderRadius:
-                            parseInt(String(theme.borderRadius?.main)) / 1.5,
+                          borderRadius: inputBorderRadius,
                         }}
                       >
                         <input

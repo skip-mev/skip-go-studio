@@ -21,8 +21,9 @@ export const AccordionCard = ({
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          setIsOpen((v) => !v);
-          onClick?.(isOpen);
+          const newIsOpen = !isOpen;
+          setIsOpen(newIsOpen);
+          onClick?.(newIsOpen);
         }}
       >
         <h2 className="text-2xl">{title}</h2>

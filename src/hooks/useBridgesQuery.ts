@@ -10,10 +10,22 @@ export const useBridgesQuery = (
   return useQuery({
     queryKey: ["bridges"],
     queryFn: async () => {
-      return await bridges({
-        abortDuplicateRequests: false
-      });
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        const result = await bridges({
+          abortDuplicateRequests: false,
+        });
+
+        if (result !== undefined) {
+          return result;
+        }
+
+        if (attempt < 3) {
+          await new Promise((resolve) => setTimeout(resolve, 500));
+        }
+      }
+      throw new Error("Failed to fetch bridges after maximum retries.");
     },
+    retry: 3,
     ...props,
   });
 };

@@ -1,4 +1,5 @@
 import { useStudioStore } from "@/store/studio";
+import { useMemo } from "react";
 
 export const BorderRadiusInput = ({
   title,
@@ -10,6 +11,12 @@ export const BorderRadiusInput = ({
   value?: string | number;
 }) => {
   const { theme } = useStudioStore();
+
+  const inputBorderRadius = useMemo(
+    () => parseInt(String(theme.borderRadius?.main)) / 1.5,
+    [theme.borderRadius?.main]
+  );
+
   return (
     <div className="flex flex-col gap-4 text-lg">
       <div className="flex flex-row items-center justify-between">
@@ -18,7 +25,7 @@ export const BorderRadiusInput = ({
           <div
             className="flex w-30 flex-row items-center gap-1 bg-[#1D1D1D] px-3 py-1.5 text-[13px]"
             style={{
-              borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
+              borderRadius: inputBorderRadius,
             }}
           >
             <input

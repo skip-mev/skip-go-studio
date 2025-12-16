@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { useChainIdsToAffiliates } from "@/hooks/useChainIdsToAffiliates";
@@ -22,6 +22,166 @@ function stringifyWithUndefined(obj: Record<string, string[] | undefined>) {
   return `{\n  ${entries.join(",\n  ")}\n}`;
 }
 
+// Memoized syntax highlighter style to avoid recreating on every render
+const SYNTAX_HIGHLIGHTER_STYLE = {
+  'code[class*="language-"]': {
+    color: "#f8f8f2",
+    background: "none",
+    fontFamily: "ABCDiatypeMono, sans-serif",
+    textAlign: "left",
+    whiteSpace: "pre",
+    wordSpacing: "normal",
+    wordBreak: "normal",
+    wordWrap: "normal",
+    lineHeight: "1.5",
+    MozTabSize: "4",
+    OTabSize: "4",
+    tabSize: "4",
+    WebkitHyphens: "none",
+    MozHyphens: "none",
+    msHyphens: "none",
+    hyphens: "none",
+  },
+  'pre[class*="language-"]': {
+    color: "#f8f8f2",
+    background: "#2b2b2b",
+    fontFamily: "ABCDiatypeMono, sans-serif",
+    textAlign: "left",
+    whiteSpace: "pre",
+    wordSpacing: "normal",
+    wordBreak: "normal",
+    wordWrap: "normal",
+    lineHeight: "1.5",
+    MozTabSize: "4",
+    OTabSize: "4",
+    tabSize: "4",
+    WebkitHyphens: "none",
+    MozHyphens: "none",
+    msHyphens: "none",
+    hyphens: "none",
+    padding: "1em",
+    margin: "0.5em 0",
+    overflow: "auto",
+    borderRadius: "0.3em",
+  },
+  ':not(pre) > code[class*="language-"]': {
+    background: "#2b2b2b",
+    padding: "0.1em",
+    borderRadius: "0.3em",
+    whiteSpace: "normal",
+  },
+  comment: {
+    color: "#d4d0ab",
+  },
+  prolog: {
+    color: "#d4d0ab",
+  },
+  doctype: {
+    color: "#d4d0ab",
+  },
+  cdata: {
+    color: "#d4d0ab",
+  },
+  punctuation: {
+    color: "#fefefe",
+  },
+  property: {
+    color: "#ffa07a",
+  },
+  tag: {
+    color: "#ffa07a",
+  },
+  constant: {
+    color: "#ffa07a",
+  },
+  symbol: {
+    color: "#ffa07a",
+  },
+  deleted: {
+    color: "#ffa07a",
+  },
+  boolean: {
+    color: "#00e0e0",
+  },
+  number: {
+    color: "#00e0e0",
+  },
+  selector: {
+    color: "#abe338",
+  },
+  "attr-name": {
+    color: "#abe338",
+  },
+  string: {
+    color: "#abe338",
+  },
+  char: {
+    color: "#abe338",
+  },
+  builtin: {
+    color: "#abe338",
+  },
+  inserted: {
+    color: "#abe338",
+  },
+  operator: {
+    color: "#00e0e0",
+  },
+  entity: {
+    color: "#00e0e0",
+    cursor: "help",
+  },
+  url: {
+    color: "#00e0e0",
+  },
+  ".language-css .token.string": {
+    color: "#00e0e0",
+  },
+  ".style .token.string": {
+    color: "#00e0e0",
+  },
+  variable: {
+    color: "#00e0e0",
+  },
+  atrule: {
+    color: "#ffd700",
+  },
+  "attr-value": {
+    color: "#ffd700",
+  },
+  function: {
+    color: "#ffd700",
+  },
+  keyword: {
+    color: "#00e0e0",
+  },
+  regex: {
+    color: "#ffd700",
+  },
+  important: {
+    color: "#ffd700",
+    fontWeight: "bold",
+  },
+  bold: {
+    fontWeight: "bold",
+  },
+  italic: {
+    fontStyle: "italic",
+  },
+} as const;
+
+const CUSTOM_STYLE = {
+  marginTop: 0,
+  backgroundColor: "black",
+  borderRadius: 0,
+  height: "400px",
+  overflow: "auto",
+  paddingLeft: 4,
+  borderTopRightRadius: 0,
+  borderTopLeftRadius: 0,
+  letterSpacing: 0.2,
+} as const;
+
 export const Code = () => {
   const [isOpen, setIsOpen] = useState(false);
   const {
@@ -34,13 +194,36 @@ export const Code = () => {
     allowMultiTx,
     backgroundColor,
   } = useStudioStore();
-  const saveBackgroundColor = debounce((color: string) => {
-    useStudioStore.setState({
-      backgroundColor: color,
-    });
-  }, 200);
+
+  // Memoize debounced function to avoid recreation on every render
+  const saveBackgroundColor = useMemo(
+    () =>
+      debounce((color: string) => {
+        useStudioStore.setState({
+          backgroundColor: color,
+        });
+      }, 200),
+    []
+  );
+
+  // Cleanup debounced function on unmount
+  useEffect(() => {
+    return () => {
+      saveBackgroundColor.cancel();
+    };
+  }, [saveBackgroundColor]);
 
   const [copied, setCopied] = useState(false);
+  const copyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (copyTimeoutRef.current) {
+        clearTimeout(copyTimeoutRef.current);
+      }
+    };
+  }, []);
 
   const filters = useWidgetFilters();
   const chainIdsToAffiliates = useChainIdsToAffiliates();
@@ -66,32 +249,31 @@ export const Code = () => {
               filter={{
                 source: ${stringifyWithUndefined(filters.filter.source || {})},
                 destination:  ${stringifyWithUndefined(
-                  filters.filter.destination || {}
-                )},
+            filters.filter.destination || {}
+          )},
               }}
               filterOut={{
                 source: ${stringifyWithUndefined(
-                  filters.filterOut.source || {}
-                )},
+            filters.filterOut.source || {}
+          )},
                 destination:  ${stringifyWithUndefined(
-                  filters.filterOut.destination || {}
-                )},
+            filters.filterOut.destination || {}
+          )},
               }}
               routeConfig={${JSON.stringify(
-                {
-                  swapVenues,
-                  bridges,
-                  allowMultiTx,
-                },
-                null,
-                4
-              )}}
+            {
+              swapVenues,
+              bridges,
+              allowMultiTx,
+            },
+            null,
+            4
+          )}}
               settings={{
-                "slippage": ${
-                  Number(defaultMaxSlippage) <= 0
-                    ? 1
-                    : Number(defaultMaxSlippage)
-                }n,
+                "slippage": ${Number(defaultMaxSlippage) <= 0
+            ? 1
+            : Number(defaultMaxSlippage)
+          }n,
                 useUnlimitedApproval: ${erc20UnlimitedApproval}
               }}
               chainIdsToAffiliates={${JSON.stringify(chainIdsToAffiliates)}}
@@ -135,9 +317,6 @@ export const Code = () => {
                 value={backgroundColor}
                 onChange={(e) => saveBackgroundColor(e.target.value)}
                 className="cursor-pointer border-none opacity-0 outline-none"
-                style={{
-                  backgroundColor: backgroundColor,
-                }}
               />
             </div>
             <span>Background</span>
@@ -157,7 +336,12 @@ export const Code = () => {
             onClick={() => {
               navigator.clipboard.writeText(code.data || "");
               setCopied(true);
-              setTimeout(() => {
+              // Clear any existing timeout
+              if (copyTimeoutRef.current) {
+                clearTimeout(copyTimeoutRef.current);
+              }
+              // Set new timeout and store reference for cleanup
+              copyTimeoutRef.current = setTimeout(() => {
                 setCopied(false);
               }, 2000);
             }}
@@ -177,163 +361,8 @@ export const Code = () => {
         language="jsx"
         wrapLines
         showLineNumbers
-        style={{
-          'code[class*="language-"]': {
-            color: "#f8f8f2",
-            background: "none",
-            fontFamily: "ABCDiatypeMono, sans-serif",
-            textAlign: "left",
-            whiteSpace: "pre",
-            wordSpacing: "normal",
-            wordBreak: "normal",
-            wordWrap: "normal",
-            lineHeight: "1.5",
-            MozTabSize: "4",
-            OTabSize: "4",
-            tabSize: "4",
-            WebkitHyphens: "none",
-            MozHyphens: "none",
-            msHyphens: "none",
-            hyphens: "none",
-          },
-          'pre[class*="language-"]': {
-            color: "#f8f8f2",
-            background: "#2b2b2b",
-            fontFamily: "ABCDiatypeMono, sans-serif",
-            textAlign: "left",
-            whiteSpace: "pre",
-            wordSpacing: "normal",
-            wordBreak: "normal",
-            wordWrap: "normal",
-            lineHeight: "1.5",
-            MozTabSize: "4",
-            OTabSize: "4",
-            tabSize: "4",
-            WebkitHyphens: "none",
-            MozHyphens: "none",
-            msHyphens: "none",
-            hyphens: "none",
-            padding: "1em",
-            margin: "0.5em 0",
-            overflow: "auto",
-            borderRadius: "0.3em",
-          },
-          ':not(pre) > code[class*="language-"]': {
-            background: "#2b2b2b",
-            padding: "0.1em",
-            borderRadius: "0.3em",
-            whiteSpace: "normal",
-          },
-          comment: {
-            color: "#d4d0ab",
-          },
-          prolog: {
-            color: "#d4d0ab",
-          },
-          doctype: {
-            color: "#d4d0ab",
-          },
-          cdata: {
-            color: "#d4d0ab",
-          },
-          punctuation: {
-            color: "#fefefe",
-          },
-          property: {
-            color: "#ffa07a",
-          },
-          tag: {
-            color: "#ffa07a",
-          },
-          constant: {
-            color: "#ffa07a",
-          },
-          symbol: {
-            color: "#ffa07a",
-          },
-          deleted: {
-            color: "#ffa07a",
-          },
-          boolean: {
-            color: "#00e0e0",
-          },
-          number: {
-            color: "#00e0e0",
-          },
-          selector: {
-            color: "#abe338",
-          },
-          "attr-name": {
-            color: "#abe338",
-          },
-          string: {
-            color: "#abe338",
-          },
-          char: {
-            color: "#abe338",
-          },
-          builtin: {
-            color: "#abe338",
-          },
-          inserted: {
-            color: "#abe338",
-          },
-          operator: {
-            color: "#00e0e0",
-          },
-          entity: {
-            color: "#00e0e0",
-            cursor: "help",
-          },
-          url: {
-            color: "#00e0e0",
-          },
-          ".language-css .token.string": {
-            color: "#00e0e0",
-          },
-          ".style .token.string": {
-            color: "#00e0e0",
-          },
-          variable: {
-            color: "#00e0e0",
-          },
-          atrule: {
-            color: "#ffd700",
-          },
-          "attr-value": {
-            color: "#ffd700",
-          },
-          function: {
-            color: "#ffd700",
-          },
-          keyword: {
-            color: "#00e0e0",
-          },
-          regex: {
-            color: "#ffd700",
-          },
-          important: {
-            color: "#ffd700",
-            fontWeight: "bold",
-          },
-          bold: {
-            fontWeight: "bold",
-          },
-          italic: {
-            fontStyle: "italic",
-          },
-        }}
-        customStyle={{
-          marginTop: 0,
-          backgroundColor: "black",
-          borderRadius: 0,
-          height: "400px", // 80px for the header and controls
-          overflow: "auto",
-          paddingLeft: 4,
-          borderTopRightRadius: 0,
-          borderTopLeftRadius: 0,
-          letterSpacing: 0.2,
-        }}
+        style={SYNTAX_HIGHLIGHTER_STYLE}
+        customStyle={CUSTOM_STYLE}
       >
         {code.data || ""}
       </SyntaxHighlighter>

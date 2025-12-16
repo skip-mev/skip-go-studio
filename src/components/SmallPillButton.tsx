@@ -1,12 +1,18 @@
 import { useStudioStore } from "@/store/studio";
 import { cn } from "@/utils/ui";
-import { ButtonHTMLAttributes, DetailedHTMLProps, HTMLAttributes } from "react";
+import { ButtonHTMLAttributes, DetailedHTMLProps, HTMLAttributes, useMemo } from "react";
 
 export const SmallPillButton = (
   props: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
 ) => {
   const { className, onClick, ...rest } = props;
   const { theme } = useStudioStore();
+
+  const borderRadius = useMemo(
+    () => parseInt(String(theme.borderRadius?.main)) / 1.5,
+    [theme.borderRadius?.main]
+  );
+
   return (
     <div
       className={cn(
@@ -15,7 +21,7 @@ export const SmallPillButton = (
         className
       )}
       style={{
-        borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
+        borderRadius,
       }}
       onClick={onClick}
       {...rest}
@@ -28,11 +34,17 @@ export const FilterButton = (
 ) => {
   const { className, onClick, ...rest } = props;
   const { theme } = useStudioStore();
+
+  const borderRadius = useMemo(
+    () => parseInt(String(theme.borderRadius?.main)) / 1.5,
+    [theme.borderRadius?.main]
+  );
+
   return (
     <button
       className={cn("bg-[#1D1D1D] px-2.5 py-1.5 text-[13px]", className)}
       style={{
-        borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
+        borderRadius,
       }}
       onClick={(e) => {
         e.preventDefault();

@@ -3,6 +3,7 @@ import { debounce } from "lodash";
 import { ColorIcon } from "../../icons/ColorIcon";
 import Sketch from "@uiw/react-color-sketch";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { useMemo } from "react";
 
 export const ColorSelectionButton = ({
   title,
@@ -19,6 +20,11 @@ export const ColorSelectionButton = ({
     onSave(color);
   }, 200);
 
+  const buttonBorderRadius = useMemo(
+    () => parseInt(String(theme.borderRadius?.main)) / 1.5,
+    [theme.borderRadius?.main]
+  );
+
   return (
     <div className="flex flex-col gap-4 text-lg">
       <div className="flex flex-row items-center justify-between">
@@ -27,7 +33,7 @@ export const ColorSelectionButton = ({
           <Popover className="relative">
             <PopoverButton
               style={{
-                borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
+                borderRadius: buttonBorderRadius,
               }}
               className="flex flex-row items-center justify-between px-5 gap-2 bg-[#1D1D1D] h-10 w-40"
             >

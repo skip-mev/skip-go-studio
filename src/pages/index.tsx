@@ -24,6 +24,7 @@ import { Code } from "@/components/sections/Code/Code";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { MobileNotSupportedPage } from "@/components/pages/MobileNotSupported";
 import { BridgeType } from "@skip-go/client";
+import { useMemo } from "react";
 
 export default function Studio() {
   const {
@@ -41,6 +42,11 @@ export default function Studio() {
   const filters = useWidgetFilters();
   const chainIdsToAffiliates = useChainIdsToAffiliates();
   const isMobile = useIsMobile();
+
+  const buttonBorderRadius = useMemo(
+    () => parseInt(String(theme.borderRadius?.main)) / 1.5,
+    [theme.borderRadius?.main]
+  );
 
   if (isMobile) {
     return <MobileNotSupportedPage />;
@@ -92,8 +98,7 @@ export default function Studio() {
                   target="_blank"
                   className="inline-flex w-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
                   style={{
-                    borderRadius:
-                      parseInt(String(theme.borderRadius?.main)) / 1.5,
+                    borderRadius: buttonBorderRadius,
                   }}
                 >
                   Install Skip Go Widget
@@ -101,12 +106,11 @@ export default function Studio() {
               </div>
               <div>
                 <a
-                  href="https://skip.build/discord"
+                  href="https://discord.com/invite/interchain"
                   target="_blank"
                   className="inline-flex w-full justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
                   style={{
-                    borderRadius:
-                      parseInt(String(theme.borderRadius?.main)) / 1.5,
+                    borderRadius: buttonBorderRadius,
                   }}
                 >
                   Request for whitelist
@@ -115,8 +119,7 @@ export default function Studio() {
               <button
                 className="justify-center gap-x-1.5 bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50"
                 style={{
-                  borderRadius:
-                    parseInt(String(theme.borderRadius?.main)) / 1.5,
+                  borderRadius: buttonBorderRadius,
                 }}
                 onClick={() => {
                   useStudioStore.setState(studioStoreDefaultValues);
@@ -126,14 +129,6 @@ export default function Studio() {
                   useDestinationNetworkAndAssetsStore.setState(
                     destinationNetworkAndAssetsStoreDefaultValues
                   );
-                  useStudioStore.setState({
-                    defaultRoute: {
-                      destChainId: undefined,
-                      destAssetDenom: undefined,
-                      srcChainId: undefined,
-                      srcAssetDenom: undefined,
-                    },
-                  });
                 }}
               >
                 Reset

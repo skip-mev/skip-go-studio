@@ -1,6 +1,7 @@
 import { useStudioStore } from "@/store/studio";
 import { ChevronDownIcon } from "../icons/ChevronDown";
 import { cn } from "@/utils/ui";
+import { useMemo } from "react";
 
 export const SelectionButton = ({
   isOpen,
@@ -14,6 +15,12 @@ export const SelectionButton = ({
   children?: React.ReactNode;
 }) => {
   const { theme } = useStudioStore();
+
+  const buttonBorderRadius = useMemo(
+    () => parseInt(String(theme.borderRadius?.main)) / 1.5,
+    [theme.borderRadius?.main]
+  );
+
   return (
     <button
       onClick={(e) => {
@@ -23,7 +30,7 @@ export const SelectionButton = ({
       }}
       className="flex flex-row items-center justify-between px-5 gap-2 bg-[#1D1D1D] h-10 w-44"
       style={{
-        borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
+        borderRadius: buttonBorderRadius,
       }}
     >
       {text && <span>{text}</span>}

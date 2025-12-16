@@ -1,12 +1,18 @@
 import { ChainSelection } from "./ChainSelection";
 import { AccordionCard } from "../../AccordionCard";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { cn } from "@/utils/ui";
 import { useStudioStore } from "@/store/studio";
 
 export const NetworksAndAssets = () => {
   const [context, setContext] = useState<"source" | "destination">("source");
   const { theme } = useStudioStore();
+
+  const buttonBorderRadius = useMemo(
+    () => parseInt(String(theme.borderRadius?.main)) / 1.5,
+    [theme.borderRadius?.main]
+  );
+
   return (
     <AccordionCard title="Network and Assets">
       <p className="text-start">
@@ -19,7 +25,7 @@ export const NetworksAndAssets = () => {
             context === "source" && "bg-white text-black"
           )}
           style={{
-            borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
+            borderRadius: buttonBorderRadius,
           }}
           onClick={(e) => {
             e.preventDefault();
@@ -35,7 +41,7 @@ export const NetworksAndAssets = () => {
             context === "destination" && "bg-white text-black"
           )}
           style={{
-            borderRadius: parseInt(String(theme.borderRadius?.main)) / 1.5,
+            borderRadius: buttonBorderRadius,
           }}
           onClick={(e) => {
             e.preventDefault();
