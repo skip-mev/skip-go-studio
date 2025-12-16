@@ -30,7 +30,6 @@ export const ChainSelection = ({
   const {
     data: chains,
     isLoading: isChainsLoading,
-    error,
   } = useChainsQuery({
     select: (data) => {
       if (!data) return [];

@@ -54,6 +54,7 @@ export const ColorSelection = () => {
                   },
                 },
                 success: {
+                  background: "#d4e8cc",
                   text: "#6cae4e",
                 },
                 warning: {
@@ -309,20 +310,39 @@ export const ColorSelection = () => {
           }}
         />
       </div>
-      <ColorSelectionButton
-        title="Success text"
-        value={theme.success.text}
-        onSave={(color) => {
-          useStudioStore.setState({
-            theme: {
-              ...theme,
-              success: {
-                text: color,
+      <span className="text-xl">Success</span>
+      <div className="flex flex-col gap-4 pl-4">
+        <ColorSelectionButton
+          title="Background"
+          value={theme.success.background}
+          onSave={(color) => {
+            useStudioStore.setState({
+              theme: {
+                ...theme,
+                success: {
+                  ...theme.success,
+                  background: color,
+                },
               },
-            },
-          });
-        }}
-      />
+            });
+          }}
+        />
+        <ColorSelectionButton
+          title="Text"
+          value={theme.success.text}
+          onSave={(color) => {
+            useStudioStore.setState({
+              theme: {
+                ...theme,
+                success: {
+                  ...theme.success,
+                  text: color,
+                },
+              },
+            });
+          }}
+        />
+      </div>
       <span className="text-xl mt-2">Border radius</span>
       <div className="flex flex-col gap-4 pl-4">
         <BorderRadiusInput
