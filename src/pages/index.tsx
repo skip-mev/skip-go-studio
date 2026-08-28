@@ -25,6 +25,7 @@ import { useIsMobile } from "@/hooks/useIsMobile";
 import { MobileNotSupportedPage } from "@/components/pages/MobileNotSupported";
 import { BridgeType } from "@skip-go/client";
 import { useMemo } from "react";
+import { API_URL } from "@/const/api";
 
 export default function Studio() {
   const {
@@ -139,6 +140,7 @@ export default function Studio() {
               <div className="w-full max-w-md mb-[160px]">
                 <Widget
                   theme={theme}
+                  apiUrl={API_URL}
                   defaultRoute={defaultRoute}
                   {...filters}
                   routeConfig={{

@@ -2219,7 +2219,7 @@
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.33.22.tgz#3339d85172509095a8384cb4b44834a7c9309d86"
   integrity sha512-auUj4k+f4pyrIVf4GW5UKquSZFHJWri06QgARy9C0t9ZTjJLIuNIrr1yl9bWcJWJ1Gz1vOvYN1D+QPaIlNMVkQ==
 
-"@skip-go/client@1.6.1":
+"@skip-go/client@1.6.1", "@skip-go/client@^1.6.1":
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/@skip-go/client/-/client-1.6.1.tgz#4074e4622bccb429c662637d54ecb59323ebf53a"
   integrity sha512-B2AQinVvdyOMVf2dRy2dzuEHgQvKuwpmLe1xcMxtQZIzpBFquRdTak/0guaL8QcLAjWdbmCh3etj0ClvYXXoYg==
@@ -2238,29 +2238,10 @@
     keccak "3.0.4"
     uuid "^11.1.0"
 
-"@skip-go/client@^1.5.10":
-  version "1.5.10"
-  resolved "https://registry.yarnpkg.com/@skip-go/client/-/client-1.5.10.tgz#e2fce37bb2bf755f0464a845d34540b9de6994b3"
-  integrity sha512-oDl1S+qgHOIGVpNEkco1zmSG7p9rL5l5gOq1gRedzYKBGgEHfIDXLTcyXZe66ZsvwRbI5c4a/dPMXBXwGxu17A==
-  dependencies:
-    "@cosmjs/amino" "0.33.1"
-    "@cosmjs/cosmwasm-stargate" "0.33.1"
-    "@cosmjs/encoding" "0.33.1"
-    "@cosmjs/math" "0.33.1"
-    "@cosmjs/proto-signing" "0.33.1"
-    "@cosmjs/stargate" "0.33.1"
-    "@keplr-wallet/unit" "^0.12.143"
-    "@solana/wallet-adapter-base" "^0.9.23"
-    bech32 "^2.0.0"
-    bignumber.js "^9.1.2"
-    cosmjs-types "^0.9.0"
-    keccak "3.0.4"
-    uuid "^11.1.0"
-
-"@skip-go/widget@^3.17.1":
-  version "3.17.1"
-  resolved "https://registry.yarnpkg.com/@skip-go/widget/-/widget-3.17.1.tgz#a267c062443fb729d61500a4b940ace8a0370f87"
-  integrity sha512-GwXn6mNg/Z7QAh9qHhZUBF+flTtr8r5OuhxBvPlhzLd+KHJgV8NAMnrVRArAqzKnrxWtzjfN5KIv/XB/1Q+P+A==
+"@skip-go/widget@^3.17.2":
+  version "3.17.2"
+  resolved "https://registry.yarnpkg.com/@skip-go/widget/-/widget-3.17.2.tgz#5d840ed30faffe936739456db4a33ad2ef16657d"
+  integrity sha512-IXgmGWUj+w8IvE/c7Oi4GGpG42vav23BYVDxL0008bRJfAT6A+0yOcgX7FAGdSFUf/UUUjKa+9Pm6b2u+t7KPg==
   dependencies:
     "@amplitude/analytics-browser" "^2.11.12"
     "@amplitude/plugin-session-replay-browser" "^1.16.5"
@@ -10557,7 +10538,7 @@ viem@>=2.23.11:
     ox "0.7.1"
     ws "8.18.2"
 
-viem@>=2.29.0, viem@^2.27.2, viem@^2.31.7, viem@^2.47.0:
+viem@>=2.29.0, viem@^2.27.2, viem@^2.31.7, viem@^2.39.0, viem@^2.47.0:
   version "2.55.19"
   resolved "https://registry.yarnpkg.com/viem/-/viem-2.55.19.tgz#c5ccd1e54755b2361911283204fb564611543590"
   integrity sha512-4QPIX0eYPLsOBk53NKswVMkQoxuP7GlOBnB4wM6dkDokREO4QENNc3bmyPKK1PBTViXh0TPJCHLjIuU20Qi3fg==
@@ -10571,7 +10552,7 @@ viem@>=2.29.0, viem@^2.27.2, viem@^2.31.7, viem@^2.47.0:
     ox "0.14.34"
     ws "8.21.0"
 
-viem@^2.1.1, viem@^2.24.2:
+viem@^2.1.1:
   version "2.24.2"
   resolved "https://registry.yarnpkg.com/viem/-/viem-2.24.2.tgz#68aac43c35e8d73587bbdab2c547579dd60ebb80"
   integrity sha512-lUGoTHhMYlR4ktQiOrbTPmYvrMn3jKUdn2PSmB9QLICxnsQJxMkSCeGRoJFq7hi7K6PCMQgAyLMR/9J1key5cg==
