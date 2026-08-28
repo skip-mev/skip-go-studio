@@ -23,6 +23,7 @@ import { Settings } from "@/components/sections/Settings/Settings";
 import { Code } from "@/components/sections/Code/Code";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { MobileNotSupportedPage } from "@/components/pages/MobileNotSupported";
+import { ColorIcon } from "@/components/icons/ColorIcon";
 import { BridgeType } from "@skip-go/client";
 import { useMemo } from "react";
 import { API_URL } from "@/const/api";
@@ -40,13 +41,30 @@ export default function Studio() {
   } = useStudioStore();
   const { chainId } = useAssetSelectorModalStore();
 
-  const filters = useWidgetFilters();
+  const { isLoading: isFiltersLoading, ...filters } = useWidgetFilters();
   const chainIdsToAffiliates = useChainIdsToAffiliates();
   const isMobile = useIsMobile();
 
   const buttonBorderRadius = useMemo(
     () => parseInt(String(theme.borderRadius?.main)) / 1.5,
     [theme.borderRadius?.main]
+  );
+
+  const routeConfig = useMemo(
+    () => ({
+      swapVenues,
+      bridges: bridges?.filter(Boolean) as BridgeType[],
+      allowMultiTx,
+    }),
+    [swapVenues, bridges, allowMultiTx]
+  );
+
+  const widgetSettings = useMemo(
+    () => ({
+      slippage: Number(defaultMaxSlippage) <= 0 ? 1 : Number(defaultMaxSlippage),
+      useUnlimitedApproval: erc20UnlimitedApproval,
+    }),
+    [defaultMaxSlippage, erc20UnlimitedApproval]
   );
 
   if (isMobile) {
@@ -138,25 +156,27 @@ export default function Studio() {
 
             <div className="flex flex-1 flex-col items-center justify-center relative overflow-hidden">
               <div className="w-full max-w-md mb-[160px]">
-                <Widget
-                  theme={theme}
-                  apiUrl={API_URL}
-                  defaultRoute={defaultRoute}
-                  {...filters}
-                  routeConfig={{
-                    swapVenues,
-                    bridges: bridges?.filter(Boolean) as BridgeType[],
-                    allowMultiTx,
-                  }}
-                  settings={{
-                    slippage:
-                      Number(defaultMaxSlippage) <= 0
-                        ? 1
-                        : Number(defaultMaxSlippage),
-                    useUnlimitedApproval: erc20UnlimitedApproval,
-                  }}
-                  chainIdsToAffiliates={chainIdsToAffiliates}
-                />
+                {isFiltersLoading ? (
+                  // Don't mount the Widget until chains/assets (and the
+                  // filter/filterOut derived from them) have resolved.
+                  // Mounting it earlier and then flipping filter/filterOut
+                  // from undefined to their real values races the Widget's
+                  // own internal chains/assets fetch and can leave it
+                  // stuck without a chain list after a cancelled request.
+                  <div className="flex h-96 w-full items-center justify-center">
+                    <ColorIcon className="animate-spin" color="#A5A5A5" />
+                  </div>
+                ) : (
+                  <Widget
+                    theme={theme}
+                    apiUrl={API_URL}
+                    defaultRoute={defaultRoute}
+                    {...filters}
+                    routeConfig={routeConfig}
+                    settings={widgetSettings}
+                    chainIdsToAffiliates={chainIdsToAffiliates}
+                  />
+                )}
               </div>
               <Code />
             </div>
