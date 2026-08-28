@@ -12,8 +12,8 @@ export const useWidgetFilters = () => {
     useSourceNetworkAndAssetsStore();
   const { destinationSelectedAssets, destinationSelectedChains } =
     useDestinationNetworkAndAssetsStore();
-  const { data: chains } = useChainsQuery();
-  const { data: assets } = useAssetsQuery();
+  const { data: chains, isLoading: isChainsLoading } = useChainsQuery();
+  const { data: assets, isLoading: isAssetsLoading } = useAssetsQuery();
 
   const getFilters = useMemo(() => {
     return (selectedChains?: string[], selectedAssets?: Record<string, string[]>) => {
@@ -91,5 +91,6 @@ export const useWidgetFilters = () => {
   return {
     filter,
     filterOut,
+    isLoading: isChainsLoading || isAssetsLoading,
   };
 };
