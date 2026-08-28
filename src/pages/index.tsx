@@ -49,6 +49,23 @@ export default function Studio() {
     [theme.borderRadius?.main]
   );
 
+  const routeConfig = useMemo(
+    () => ({
+      swapVenues,
+      bridges: bridges?.filter(Boolean) as BridgeType[],
+      allowMultiTx,
+    }),
+    [swapVenues, bridges, allowMultiTx]
+  );
+
+  const widgetSettings = useMemo(
+    () => ({
+      slippage: Number(defaultMaxSlippage) <= 0 ? 1 : Number(defaultMaxSlippage),
+      useUnlimitedApproval: erc20UnlimitedApproval,
+    }),
+    [defaultMaxSlippage, erc20UnlimitedApproval]
+  );
+
   if (isMobile) {
     return <MobileNotSupportedPage />;
   }
@@ -143,18 +160,8 @@ export default function Studio() {
                   apiUrl={API_URL}
                   defaultRoute={defaultRoute}
                   {...filters}
-                  routeConfig={{
-                    swapVenues,
-                    bridges: bridges?.filter(Boolean) as BridgeType[],
-                    allowMultiTx,
-                  }}
-                  settings={{
-                    slippage:
-                      Number(defaultMaxSlippage) <= 0
-                        ? 1
-                        : Number(defaultMaxSlippage),
-                    useUnlimitedApproval: erc20UnlimitedApproval,
-                  }}
+                  routeConfig={routeConfig}
+                  settings={widgetSettings}
                   chainIdsToAffiliates={chainIdsToAffiliates}
                 />
               </div>
