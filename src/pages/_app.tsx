@@ -5,12 +5,13 @@ import { Analytics } from "@vercel/analytics/next";
 import { metadata } from "@/constants/metadata";
 import { NextSeo } from "next-seo";
 import { setApiOptions } from "@skip-go/client";
+import { API_URL } from "@/const/api";
 
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
   setApiOptions({
-    apiUrl: "https://go.skip.build/api/skip/",
+    apiUrl: API_URL,
   });
   return (
     <>
