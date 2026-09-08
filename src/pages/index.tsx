@@ -157,12 +157,6 @@ export default function Studio() {
             <div className="flex flex-1 flex-col items-center justify-center relative overflow-hidden">
               <div className="w-full max-w-md mb-[160px]">
                 {isFiltersLoading ? (
-                  // Don't mount the Widget until chains/assets (and the
-                  // filter/filterOut derived from them) have resolved.
-                  // Mounting it earlier and then flipping filter/filterOut
-                  // from undefined to their real values races the Widget's
-                  // own internal chains/assets fetch and can leave it
-                  // stuck without a chain list after a cancelled request.
                   <div className="flex h-96 w-full items-center justify-center">
                     <ColorIcon className="animate-spin" color="#A5A5A5" />
                   </div>
@@ -175,6 +169,7 @@ export default function Studio() {
                     routeConfig={routeConfig}
                     settings={widgetSettings}
                     chainIdsToAffiliates={chainIdsToAffiliates}
+                    skipExplorerUrl={process.env.NEXT_PUBLIC_SKIP_EXPLORER_URL}
                   />
                 )}
               </div>
